@@ -1,0 +1,14 @@
+[
+  {
+    "id": "ENT-001",
+    "nombre": "Hospital HealthChain",
+    "tipo": "Hospital",
+    "pais": "El Salvador"
+  },
+  {
+    "id": "ENT-002",
+    "nombre": "Laboratorio Internacional",
+    "tipo": "Laboratorio",
+    "pais": "El Salvador"
+  }
+]

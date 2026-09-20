@@ -1,0 +1,40 @@
+{
+  "complexity": 4,
+  "proof_of_work": "0000",
+  "chain": [
+    {
+      "id": 0,
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "time_stamp": 1789853818826,
+      "nonce": 11383,
+      "hash": "00002791d72bd5d05aa208032e82daca108781336081d1870aa3cc02ed661411",
+      "a_registros": [
+        {
+          "id": 0,
+          "time_stamp": 1789853818826,
+          "entidad_emisora": "0000GeNeSiS",
+          "paciente_id": "P-001",
+          "categoria": "INICIO",
+          "datos_cifrados": "HISTORIAL_CREADO"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "previous_hash": "00002791d72bd5d05aa208032e82daca108781336081d1870aa3cc02ed661411",
+      "time_stamp": 1789868753178,
+      "nonce": 30360,
+      "hash": "0000c6f7e8b7fce3090894bfd7420b7ad10d96306a7f84713f5e374aab2b6af4",
+      "a_registros": [
+        {
+          "id": 0,
+          "time_stamp": 1789868753220,
+          "entidad_emisora": "MESSI Health Clinic",
+          "paciente_id": "P001",
+          "categoria": "VACUNA",
+          "datos_cifrados": "GqKtY/L9zyRiaRok/633vR8DiKEkRUf7Mv7apu/7aIq9JV3/uNKTW2ozJpMXpIlt32dbAquQSdO3m4Rk5yEU3pdas2Uua5tEovjgOa/oFEtoqJk5kRrV95B9KK6sQCFkaWjQMn2kRhtHUPbK4lLRI5M8DwE787WGrbnTyTeBbFk="
+        }
+      ]
+    }
+  ]
+}

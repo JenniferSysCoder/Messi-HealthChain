@@ -1,0 +1,26 @@
+[
+  {
+    "username": "admin",
+    "password_hash": "3eb3fe66b31e3b4d10fa70b5cad49c7112294af6ae4e476a1c405155d45aa121",
+    "nombre": "Administrador HealthChain",
+    "rol": "ADMIN",
+    "activo": true
+  },
+  {
+    "username": "dr.messi",
+    "password_hash": "dad1acfd9c45f46ae330121c22b8b68cd7ba2b90597ded36f152e176719849f5",
+    "nombre": "Dr. Lionel Messi",
+    "rol": "PROFESIONAL",
+    "activo": true,
+    "jvpm": "JVPM-DEMO-001",
+    "entidad_id": "ENT-001",
+    "entidad_nombre": "MESSI Health Clinic"
+  },
+  {
+    "username": "paciente.demo",
+    "password_hash": "d4c21aeb52cbe51bf51a5aa0551c0e86d8c394ff4c37a434b49d3dcac66f4366",
+    "nombre": "María López",
+    "rol": "PACIENTE",
+    "activo": true
+  }
+]

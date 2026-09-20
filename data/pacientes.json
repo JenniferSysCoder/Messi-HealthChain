@@ -1,0 +1,24 @@
+[
+  {
+    "id": "P001",
+    "nombre": "María López",
+    "dui": "00000000-0",
+    "fecha_nacimiento": "2000-05-15",
+    "tipo_sangre": "O+",
+    "usuario": "paciente.demo"
+  },
+  {
+    "id": "P002",
+    "nombre": "Carlos Hernández",
+    "dui": "11111111-1",
+    "fecha_nacimiento": "1998-08-21",
+    "tipo_sangre": "A+"
+  },
+  {
+    "id": "P003",
+    "nombre": "Ana Martínez",
+    "dui": "22222222-2",
+    "fecha_nacimiento": "2002-03-10",
+    "tipo_sangre": "B+"
+  }
+]

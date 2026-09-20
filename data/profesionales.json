@@ -1,0 +1,11 @@
+[
+  {
+    "id": "PROF-001",
+    "username": "dr.messi",
+    "nombre": "Dr. Profesional Demo",
+    "jvpm": "JVPM-12345",
+    "jvpm_autorizado": true,
+    "entidad_id": "ENT-001",
+    "especialidad": "Medicina General"
+  }
+]
