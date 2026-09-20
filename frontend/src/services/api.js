@@ -147,10 +147,22 @@ export async function getProfile() {
 // PACIENTES
 // ============================================================
 
+export function normalizePatientsResponse(response) {
+    if (Array.isArray(response)) {
+        return response;
+    }
+
+    if (response && Array.isArray(response.pacientes)) {
+        return response.pacientes;
+    }
+
+    return [];
+}
+
 export async function getPatients() {
     const response = await request("/pacientes/");
 
-    return response.pacientes || [];
+    return normalizePatientsResponse(response);
 }
 
 
@@ -162,14 +174,11 @@ export async function getPatientHistory(
     patientId
 ) {
 
-    const response =
-        await request(
-            `/pacientes/${encodeURIComponent(
-                patientId
-            )}/historial/`
-        );
-
-    return response.historial || [];
+    return request(
+        `/pacientes/${encodeURIComponent(
+            patientId
+        )}/historial/`
+    );
 }
 
 

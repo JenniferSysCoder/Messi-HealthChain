@@ -9,7 +9,7 @@ import DashboardPage from "./pages/DashboardPage";
 import {
     getMe,
     getPatients,
-    getPatientHistory
+    normalizePatientsResponse,
 } from "./services/api";
 
 
@@ -21,20 +21,40 @@ export default function App() {
     const [patients, setPatients] =
         useState([]);
 
-    const [loading, setLoading] =
-        useState(true);
-
     const [selectedPatient, setSelectedPatient] =
         useState(null);
 
-    const [history, setHistory] =
-        useState([]);
+    const [loading, setLoading] =
+        useState(true);
 
-    const [loadingHistory, setLoadingHistory] =
-        useState(false);
 
-    const [error, setError] =
-        useState("");
+    async function loadUserAndPatients(
+        currentUser
+    ) {
+
+        setUser(currentUser);
+
+        if (
+            currentUser?.rol ===
+            "PROFESIONAL" ||
+            currentUser?.rol ===
+            "ADMIN"
+        ) {
+
+            const response =
+                await getPatients();
+
+            setPatients(
+                normalizePatientsResponse(
+                    response
+                )
+            );
+
+        } else {
+
+            setPatients([]);
+        }
+    }
 
 
     useEffect(() => {
@@ -57,46 +77,9 @@ export default function App() {
                 const currentUser =
                     await getMe();
 
-                setUser(
+                await loadUserAndPatients(
                     currentUser
                 );
-
-
-                if (
-                    currentUser.rol ===
-                    "PROFESIONAL" ||
-                    currentUser.rol ===
-                    "ADMIN"
-                ) {
-
-                    const response =
-                        await getPatients();
-
-                    if (
-                        Array.isArray(response)
-                    ) {
-
-                        setPatients(
-                            response
-                        );
-
-                    } else if (
-                        Array.isArray(
-                            response.pacientes
-                        )
-                    ) {
-
-                        setPatients(
-                            response.pacientes
-                        );
-
-                    } else {
-
-                        setPatients([]);
-
-                    }
-
-                }
 
             } catch (error) {
 
@@ -124,59 +107,16 @@ export default function App() {
     }, []);
 
 
-    function handleLogin(
+    async function handleLogin(
         loginResponse
     ) {
 
-        setUser(
-            loginResponse.usuario
+        const currentUser =
+            loginResponse?.usuario;
+
+        await loadUserAndPatients(
+            currentUser
         );
-    }
-
-
-    async function handleSelectPatient(patient) {
-
-        setSelectedPatient(patient);
-        setHistory([]);
-        setError("");
-        setLoadingHistory(true);
-
-        try {
-
-            const response =
-                await getPatientHistory(
-                    patient.id
-                );
-
-            setHistory(
-                Array.isArray(response)
-                    ? response
-                    : []
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            setHistory([]);
-
-            setError(
-                error.message ||
-                "No fue posible consultar el historial del paciente."
-            );
-
-        } finally {
-
-            setLoadingHistory(false);
-        }
-    }
-
-
-    function handleBackToPatients() {
-
-        setSelectedPatient(null);
-        setHistory([]);
-        setError("");
     }
 
 
@@ -193,8 +133,16 @@ export default function App() {
         setUser(null);
         setPatients([]);
         setSelectedPatient(null);
-        setHistory([]);
-        setError("");
+    }
+
+
+    function handleSelectPatient(patient) {
+        setSelectedPatient(patient);
+    }
+
+
+    function handleBackToPatients() {
+        setSelectedPatient(null);
     }
 
 
@@ -205,23 +153,11 @@ export default function App() {
             const response =
                 await getPatients();
 
-            if (
-                Array.isArray(response)
-            ) {
-
-                setPatients(response);
-
-            } else if (
-                Array.isArray(
-                    response.pacientes
+            setPatients(
+                normalizePatientsResponse(
+                    response
                 )
-            ) {
-
-                setPatients(
-                    response.pacientes
-                );
-
-            }
+            );
 
         } catch (error) {
 
@@ -259,9 +195,6 @@ export default function App() {
             user={user}
             patients={patients}
             selectedPatient={selectedPatient}
-            history={history}
-            loadingHistory={loadingHistory}
-            error={error}
             onSelectPatient={handleSelectPatient}
             onBackToPatients={handleBackToPatients}
             onLogout={handleLogout}

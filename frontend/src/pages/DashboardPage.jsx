@@ -157,7 +157,9 @@ export default function DashboardPage({
       );
 
       const response =
-        await getBlockchainStatus();
+        await getBlockchainStatus(
+          token
+        );
 
       setBlockchain(
         response.blockchain
@@ -230,6 +232,7 @@ export default function DashboardPage({
 
       const response =
         await createClinicalRecord(
+          token,
           {
             paciente_id:
               selectedPatient.id,
