@@ -23,6 +23,7 @@ def _b64decode(data):
 
 
 def create_token(usuario):
+    now = int(time.time())
     payload = {
         "username": usuario.get("username"),
         "nombre": usuario.get("nombre"),
@@ -30,7 +31,9 @@ def create_token(usuario):
         "jvpm": usuario.get("jvpm"),
         "entidad_id": usuario.get("entidad_id"),
         "entidad_nombre": usuario.get("entidad_nombre"),
-        "iat": int(time.time()),
+        "paciente_id": usuario.get("paciente_id"),
+        "iat": now,
+        "exp": now + 8 * 60 * 60,
     }
 
     header = {
@@ -79,6 +82,9 @@ def decode_token(token):
 
         payload = json.loads(_b64decode(payload_encoded).decode("utf-8"))
 
+        if payload.get("exp") and int(payload["exp"]) < int(time.time()):
+            return None
+
         return payload
 
     except Exception:
@@ -94,6 +100,7 @@ class HealthChainUser:
         self.jvpm = payload.get("jvpm")
         self.entidad_id = payload.get("entidad_id")
         self.entidad_nombre = payload.get("entidad_nombre")
+        self.paciente_id = payload.get("paciente_id")
 
         self.is_authenticated = True
         self.is_anonymous = False

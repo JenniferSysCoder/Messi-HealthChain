@@ -7,6 +7,7 @@ from .views import (
     LoginView,
     PacienteHistorialView,
     PacientesView,
+    PerfilView,
     RegistroClinicoView,
 )
 
@@ -18,6 +19,11 @@ urlpatterns = [
         "login/",
         LoginView.as_view(),
         name="login",
+    ),
+    path(
+        "perfil/",
+        PerfilView.as_view(),
+        name="perfil",
     ),
     # ========================================================
     # BLOCKCHAIN

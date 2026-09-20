@@ -35,6 +35,40 @@
           "datos_cifrados": "GqKtY/L9zyRiaRok/633vR8DiKEkRUf7Mv7apu/7aIq9JV3/uNKTW2ozJpMXpIlt32dbAquQSdO3m4Rk5yEU3pdas2Uua5tEovjgOa/oFEtoqJk5kRrV95B9KK6sQCFkaWjQMn2kRhtHUPbK4lLRI5M8DwE787WGrbnTyTeBbFk="
         }
       ]
+    },
+    {
+      "id": 2,
+      "previous_hash": "0000c6f7e8b7fce3090894bfd7420b7ad10d96306a7f84713f5e374aab2b6af4",
+      "time_stamp": 1789881831224,
+      "nonce": 84,
+      "hash": "000051312dc1eca75ded86a8bf9e30ab9dc73bcb70d2b99510f76cae5b96f5d8",
+      "a_registros": [
+        {
+          "id": 0,
+          "time_stamp": 1789881831224,
+          "entidad_emisora": "MESSI Health Clinic",
+          "paciente_id": "P001",
+          "categoria": "EMERGENCIA",
+          "datos_cifrados": "GqKtY/L9zyRiaRok/633vR8DiKEkRUf7Mv7apu/7aIpmf93X48GX815x30GuSdhY32dbAquQSdO3m4Rk5yEU3pdas2Uua5tEovjgOa/oFEu5L95VNyQBNLc6U7JddOqMyp8Dj8U8XYGNSoI71LvRkeN1rAU+aymh/zNxubdDo0w="
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "previous_hash": "000051312dc1eca75ded86a8bf9e30ab9dc73bcb70d2b99510f76cae5b96f5d8",
+      "time_stamp": 1789881874615,
+      "nonce": 152669,
+      "hash": "0000971e5503d1483324555b0607fb36506df1f998ebc1e17af2add905c416eb",
+      "a_registros": [
+        {
+          "id": 0,
+          "time_stamp": 1789881874615,
+          "entidad_emisora": "MESSI Health Clinic",
+          "paciente_id": "P001",
+          "categoria": "EMERGENCIA",
+          "datos_cifrados": "GqKtY/L9zyRiaRok/633vR8DiKEkRUf7Mv7apu/7aIql3Zq0QcEM0IHFSisv+P415HLDVSCfyA1HVN/Zm23qVvBWDHCkhPzoZBoXmUQo+As7EepNG30AIzPhrOfPppsr"
+        }
+      ]
     }
   ]
 }

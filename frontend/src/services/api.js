@@ -1,34 +1,21 @@
-const API_URL =
-    "http://127.0.0.1:8000/api";
+const API_URL = "http://127.0.0.1:8000/api";
 
-
-async function request(
-    endpoint,
-    options = {}
-) {
-
-    const token =
-        localStorage.getItem(
-            "healthchain_token"
-        );
+async function request(endpoint, options = {}) {
+    const token = localStorage.getItem("healthchain_token");
 
     const headers = {
         "Content-Type": "application/json",
-        ...(options.headers || {})
+        ...(options.headers || {}),
     };
 
     if (token) {
-        headers.Authorization =
-            `Bearer ${token}`;
+        headers.Authorization = `Bearer ${token}`;
     }
 
-    const response = await fetch(
-        `${API_URL}${endpoint}`,
-        {
-            ...options,
-            headers
-        }
-    );
+    const response = await fetch(`${API_URL}${endpoint}`, {
+        ...options,
+        headers,
+    });
 
     let data = null;
 
@@ -39,109 +26,74 @@ async function request(
     }
 
     if (!response.ok) {
-
-        const message =
-            data?.message ||
-            data?.detail ||
-            `Error HTTP ${response.status}`;
-
+        const message = data?.message || data?.detail || `Error HTTP ${response.status}`;
         throw new Error(message);
     }
 
     return data;
 }
 
-
 // ============================================================
 // LOGIN
 // ============================================================
 
-export async function login(
-    username,
-    password
-) {
+export async function login(username, password) {
+    const response = await request("/login/", {
+        method: "POST",
+        body: JSON.stringify({
+            username,
+            password,
+        }),
+    });
 
-    const response =
-        await request(
-            "/login/",
-            {
-                method: "POST",
-                body: JSON.stringify({
-                    username,
-                    password
-                })
-            }
-        );
-
-    localStorage.setItem(
-        "healthchain_token",
-        response.token
-    );
-
-    localStorage.setItem(
-        "healthchain_user",
-        JSON.stringify(
-            response.usuario
-        )
-    );
+    localStorage.setItem("healthchain_token", response.token);
+    localStorage.setItem("healthchain_user", JSON.stringify(response.usuario));
 
     return response;
 }
-
 
 // ============================================================
 // USUARIO ACTUAL
 // ============================================================
 
 export async function getMe() {
+    const token = localStorage.getItem("healthchain_token");
 
-    const user =
-        localStorage.getItem(
-            "healthchain_user"
-        );
-
-    if (!user) {
+    if (!token) {
         return null;
     }
 
     try {
+        const response = await getProfile();
+        const user = response?.usuario || null;
 
-        return JSON.parse(user);
+        if (user) {
+            localStorage.setItem("healthchain_user", JSON.stringify(user));
+        }
 
+        return user;
     } catch {
-
+        logout();
         return null;
     }
 }
-
 
 // ============================================================
 // LOGOUT
 // ============================================================
 
 export function logout() {
-
-    localStorage.removeItem(
-        "healthchain_token"
-    );
-
-    localStorage.removeItem(
-        "healthchain_user"
-    );
+    localStorage.removeItem("healthchain_token");
+    localStorage.removeItem("healthchain_user");
 }
-
 
 // ============================================================
 // PERFIL
 // ============================================================
 
 export async function getProfile() {
-
-    return request(
-        "/perfil/"
-    );
+    return request("/perfil/");
 }
-
 
 // ============================================================
 // PACIENTES
@@ -161,86 +113,54 @@ export function normalizePatientsResponse(response) {
 
 export async function getPatients() {
     const response = await request("/pacientes/");
-
     return normalizePatientsResponse(response);
 }
-
 
 // ============================================================
 // HISTORIAL DE PACIENTE
 // ============================================================
 
-export async function getPatientHistory(
-    patientId
-) {
-
-    return request(
-        `/pacientes/${encodeURIComponent(
-            patientId
-        )}/historial/`
-    );
+export async function getPatientHistory(patientId) {
+    return request(`/pacientes/${encodeURIComponent(patientId)}/historial/`);
 }
-
 
 // ============================================================
 // REGISTRO CLÍNICO
 // ============================================================
 
-export async function createClinicalRecord(
-    data
-) {
-
-    return request(
-        "/registros/",
-        {
-            method: "POST",
-            body: JSON.stringify(data)
-        }
-    );
+export async function createClinicalRecord(data) {
+    return request("/registros/", {
+        method: "POST",
+        body: JSON.stringify(data),
+    });
 }
-
 
 // ============================================================
 // BLOCKCHAIN - ESTADO
 // ============================================================
 
 export async function getBlockchainStatus() {
-
-    return request(
-        "/blockchain/status/"
-    );
+    return request("/blockchain/status/");
 }
-
 
 // ============================================================
 // BLOCKCHAIN - BLOQUES
 // ============================================================
 
 export async function getBlockchainBlocks() {
-
-    return request(
-        "/blockchain/blocks/"
-    );
+    return request("/blockchain/blocks/");
 }
-
 
 // ============================================================
 // BLOCKCHAIN - GENESIS
 // ============================================================
 
-export async function createGenesis(
-    complexity = 4,
-    proofChar = "0"
-) {
-
-    return request(
-        "/blockchain/genesis/",
-        {
-            method: "POST",
-            body: JSON.stringify({
-                complexity,
-                proof_char: proofChar
-            })
-        }
-    );
+export async function createGenesis(complexity = 4, proofChar = "0") {
+    return request("/blockchain/genesis/", {
+        method: "POST",
+        body: JSON.stringify({
+            complexity,
+            proof_char: proofChar,
+        }),
+    });
 }

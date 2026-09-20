@@ -14,6 +14,22 @@ from .services.blockchain_service import (
     get_patient_history,
 )
 
+
+def _serialize_user(usuario):
+    if not usuario:
+        return None
+
+    return {
+        "username": usuario.get("username"),
+        "nombre": usuario.get("nombre"),
+        "rol": usuario.get("rol"),
+        "jvpm": usuario.get("jvpm"),
+        "entidad_id": usuario.get("entidad_id"),
+        "entidad_nombre": usuario.get("entidad_nombre"),
+        "paciente_id": usuario.get("paciente_id"),
+    }
+
+
 # ============================================================
 # FUNCIONES AUXILIARES
 # ============================================================
@@ -94,15 +110,42 @@ class LoginView(APIView):
                 "success": True,
                 "message": "Inicio de sesión correcto.",
                 "token": token,
-                "usuario": {
-                    "username": usuario.get("username"),
-                    "nombre": usuario.get("nombre"),
-                    "rol": usuario.get("rol"),
-                    "jvpm": usuario.get("jvpm"),
-                    "entidad_id": usuario.get("entidad_id"),
-                    "entidad_nombre": usuario.get("entidad_nombre"),
-                    "paciente_id": usuario.get("paciente_id"),
+                "usuario": _serialize_user(usuario),
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class PerfilView(APIView):
+
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request):
+        user = request.user
+
+        if not getattr(user, "is_authenticated", False):
+            return Response(
+                {
+                    "success": False,
+                    "message": "No autenticado.",
                 },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        payload = {
+            "username": getattr(user, "username", None),
+            "nombre": getattr(user, "nombre", None),
+            "rol": getattr(user, "rol", None),
+            "jvpm": getattr(user, "jvpm", None),
+            "entidad_id": getattr(user, "entidad_id", None),
+            "entidad_nombre": getattr(user, "entidad_nombre", None),
+            "paciente_id": getattr(user, "paciente_id", None),
+        }
+
+        return Response(
+            {
+                "success": True,
+                "usuario": payload,
             },
             status=status.HTTP_200_OK,
         )

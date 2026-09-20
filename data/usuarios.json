@@ -21,6 +21,7 @@
     "password_hash": "d4c21aeb52cbe51bf51a5aa0551c0e86d8c394ff4c37a434b49d3dcac66f4366",
     "nombre": "María López",
     "rol": "PACIENTE",
-    "activo": true
+    "activo": true,
+    "paciente_id": "P001"
   }
 ]
