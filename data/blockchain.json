@@ -69,6 +69,23 @@
           "datos_cifrados": "GqKtY/L9zyRiaRok/633vR8DiKEkRUf7Mv7apu/7aIql3Zq0QcEM0IHFSisv+P415HLDVSCfyA1HVN/Zm23qVvBWDHCkhPzoZBoXmUQo+As7EepNG30AIzPhrOfPppsr"
         }
       ]
+    },
+    {
+      "id": 4,
+      "previous_hash": "0000971e5503d1483324555b0607fb36506df1f998ebc1e17af2add905c416eb",
+      "time_stamp": 1790104604184,
+      "nonce": 249617,
+      "hash": "0000a15bc915ec778a52353c0e980659161f0d8e03e7076850b5f97036160224",
+      "a_registros": [
+        {
+          "id": 0,
+          "time_stamp": 1790104604184,
+          "entidad_emisora": "MESSI Health Clinic",
+          "paciente_id": "P001",
+          "categoria": "VACUNA",
+          "datos_cifrados": "GqKtY/L9zyRiaRok/633vR8DiKEkRUf7Mv7apu/7aIpmf93X48GX815x30GuSdhY32dbAquQSdO3m4Rk5yEU3pdas2Uua5tEovjgOa/oFEtoqJk5kRrV95B9KK6sQCFkaWjQMn2kRhtHUPbK4lLRI5M8DwE787WGrbnTyTeBbFk="
+        }
+      ]
     }
   ]
 }

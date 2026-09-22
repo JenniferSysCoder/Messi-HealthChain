@@ -34,8 +34,8 @@ export default function DashboardPage({
   const [vaccines, setVaccines] = useState("");
   const [chronic, setChronic] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [genesisComplexity, setGenesisComplexity] = useState(4);
-  const [genesisProofChar, setGenesisProofChar] = useState("0");
+  const [genesisComplexity, setGenesisComplexity] = useState("");
+  const [genesisProofChar, setGenesisProofChar] = useState("");
   const [genesisMessage, setGenesisMessage] = useState("");
   const [genesisError, setGenesisError] = useState("");
   const [creatingGenesis, setCreatingGenesis] = useState(false);
@@ -119,6 +119,11 @@ export default function DashboardPage({
       return;
     }
 
+    if (!category.trim() || !bloodType.trim() || !allergies.trim() || !vaccines.trim() || !chronic.trim()) {
+      setRecordError("Completa todos los campos clínicos obligatorios.");
+      return;
+    }
+
     const clinicalData = {
       nombre: selectedPatient.nombre,
       tipo_sangre: bloodType,
@@ -154,10 +159,27 @@ export default function DashboardPage({
   async function handleCreateGenesis() {
     setGenesisMessage("");
     setGenesisError("");
+
+    if (genesisComplexity === "" || genesisProofChar === "") {
+      setGenesisError("Ingresa la complejidad y el carácter de prueba de trabajo.");
+      return;
+    }
+
+    const parsedComplexity = Number(genesisComplexity);
+    if (!Number.isInteger(parsedComplexity) || parsedComplexity < 1 || parsedComplexity > 6) {
+      setGenesisError("La complejidad debe ser un número entero entre 1 y 6.");
+      return;
+    }
+
+    if (genesisProofChar.length !== 1) {
+      setGenesisError("El carácter de prueba de trabajo debe ser exactamente un carácter.");
+      return;
+    }
+
     setCreatingGenesis(true);
 
     try {
-      const response = await createGenesis(Number(genesisComplexity), genesisProofChar);
+      const response = await createGenesis(parsedComplexity, genesisProofChar);
 
       if (!response?.success) {
         throw new Error(response?.message || "No fue posible crear el bloque génesis.");
@@ -561,6 +583,20 @@ export default function DashboardPage({
                   </button>
                 )}
 
+                {user?.rol === "PROFESIONAL" && (
+                  <button
+                    type="button"
+                    className="new-record-button"
+                    onClick={() => {
+                      setRecordError("");
+                      setRecordMessage("");
+                      setActiveSection("record");
+                    }}
+                  >
+                    Nuevo registro para este paciente
+                  </button>
+                )}
+
                 <div className="patient-profile-card">
                   <div className="large-patient-avatar">{selectedPatient.nombre?.charAt(0).toUpperCase()}</div>
                   <div className="patient-profile-info">
@@ -675,22 +711,22 @@ export default function DashboardPage({
 
               <div className="record-field">
                 <label>Tipo de sangre</label>
-                <input value={bloodType} onChange={(e) => setBloodType(e.target.value)} placeholder="Ej. O+" />
+                <input required value={bloodType} onChange={(e) => setBloodType(e.target.value)} placeholder="Ej. O+" />
               </div>
 
               <div className="record-field">
                 <label>Alergias</label>
-                <input value={allergies} onChange={(e) => setAllergies(e.target.value)} placeholder="Ej. Penicilina" />
+                <input required value={allergies} onChange={(e) => setAllergies(e.target.value)} placeholder="Ej. Penicilina" />
               </div>
 
               <div className="record-field">
                 <label>Vacunas</label>
-                <input value={vaccines} onChange={(e) => setVaccines(e.target.value)} placeholder="Ej. COVID-19" />
+                <input required value={vaccines} onChange={(e) => setVaccines(e.target.value)} placeholder="Ej. COVID-19" />
               </div>
 
               <div className="record-field">
                 <label>Enfermedades crónicas</label>
-                <input value={chronic} onChange={(e) => setChronic(e.target.value)} placeholder="Ej. Asma" />
+                <input required value={chronic} onChange={(e) => setChronic(e.target.value)} placeholder="Ej. Asma" />
               </div>
 
               <div className="record-security">
@@ -701,7 +737,16 @@ export default function DashboardPage({
                 </div>
               </div>
 
-              <button type="submit" className="record-submit">Crear y minar registro</button>
+              <div className="record-actions">
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setActiveSection("history")}
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="record-submit">Crear y minar registro</button>
+              </div>
             </form>
           </div>
         )}
@@ -766,8 +811,11 @@ export default function DashboardPage({
                         Complejidad
                         <input
                           type="number"
+                          name="genesis-complexity"
                           min="1"
                           max="6"
+                          step="1"
+                          required
                           value={genesisComplexity}
                           onChange={(e) => setGenesisComplexity(e.target.value)}
                         />
@@ -777,9 +825,11 @@ export default function DashboardPage({
                         Carácter de prueba
                         <input
                           type="text"
+                          name="genesis-proof-char"
                           maxLength="1"
+                          required
                           value={genesisProofChar}
-                          onChange={(e) => setGenesisProofChar(e.target.value || "0")}
+                          onChange={(e) => setGenesisProofChar(e.target.value)}
                         />
                       </label>
                     </div>

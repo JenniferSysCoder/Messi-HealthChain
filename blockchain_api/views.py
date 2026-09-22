@@ -212,15 +212,21 @@ class BlockchainGenesisView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        complexity = request.data.get(
-            "complexity",
-            4,
-        )
+        complexity = request.data.get("complexity")
+        proof_char = request.data.get("proof_char")
 
-        proof_char = request.data.get(
-            "proof_char",
-            "0",
-        )
+        if (
+            complexity in (None, "")
+            or proof_char in (None, "")
+            or (isinstance(proof_char, str) and not proof_char.strip())
+        ):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Debe especificar la complejidad y el carácter de prueba de trabajo.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         resultado = create_genesis(
             complexity=complexity,
@@ -471,19 +477,13 @@ class RegistroClinicoView(APIView):
         # DATOS DEL REGISTRO
         # ----------------------------------------------------
 
-        paciente_id = str(
-            request.data.get(
-                "paciente_id",
-                "",
-            )
-        ).strip()
+        paciente_id_value = request.data.get("paciente_id")
+        categoria_value = request.data.get("categoria")
 
-        categoria = str(
-            request.data.get(
-                "categoria",
-                "",
-            )
-        ).strip()
+        paciente_id = (
+            str(paciente_id_value).strip() if paciente_id_value is not None else ""
+        )
+        categoria = str(categoria_value).strip() if categoria_value is not None else ""
 
         datos_clinicos = request.data.get(
             "datos",
@@ -521,6 +521,30 @@ class RegistroClinicoView(APIView):
                     "message": (
                         "Los datos clínicos deben " "enviarse como objeto JSON."
                     ),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        required_clinical_fields = (
+            "nombre",
+            "tipo_sangre",
+            "alergias",
+            "vacunas",
+            "cronicas",
+        )
+        missing_fields = [
+            field
+            for field in required_clinical_fields
+            if not str(datos_clinicos.get(field, "")).strip()
+        ]
+
+        if missing_fields:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Faltan campos clínicos obligatorios: "
+                    + ", ".join(missing_fields)
+                    + ".",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )

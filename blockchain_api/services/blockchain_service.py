@@ -14,10 +14,6 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 
 BLOCKCHAIN_FILE = BASE_DIR / "data" / "blockchain.json"
 
-DEFAULT_COMPLEXITY = 4
-DEFAULT_PROOF_CHAR = "0"
-
-
 # ============================================================
 # UTILIDADES DE ARCHIVO
 # ============================================================
@@ -116,11 +112,9 @@ def _rebuild_blockchain(data):
     Reconstruye el objeto BlockChain a partir del JSON almacenado.
     """
 
-    complexity = int(data.get("complexity", DEFAULT_COMPLEXITY))
-
-    proof = data.get("proof_of_work", DEFAULT_PROOF_CHAR * complexity)
-
-    proof_char = proof[0] if proof else DEFAULT_PROOF_CHAR
+    complexity = int(data["complexity"])
+    proof = data["proof_of_work"]
+    proof_char = proof[0]
 
     blockchain = BlockChain(complexity, proof_char)
 
@@ -167,7 +161,7 @@ def _rebuild_blockchain(data):
 # ============================================================
 
 
-def create_genesis(complexity=DEFAULT_COMPLEXITY, proof_char=DEFAULT_PROOF_CHAR):
+def create_genesis(complexity, proof_char):
     """
     Crea el bloque Genesis utilizando el motor Blockchain
     del primer parcial.
@@ -175,15 +169,13 @@ def create_genesis(complexity=DEFAULT_COMPLEXITY, proof_char=DEFAULT_PROOF_CHAR)
     El Genesis se crea una sola vez.
     """
 
-    if blockchain_exists():
-
-        return {
-            "success": False,
-            "message": "La Blockchain ya está inicializada.",
-            "status": get_blockchain_status(),
-        }
-
     try:
+
+        if isinstance(complexity, bool):
+            raise ValueError("La complejidad debe ser un número entero.")
+
+        if isinstance(complexity, float) and not complexity.is_integer():
+            raise ValueError("La complejidad debe ser un número entero.")
 
         complexity = int(complexity)
 
@@ -193,7 +185,21 @@ def create_genesis(complexity=DEFAULT_COMPLEXITY, proof_char=DEFAULT_PROOF_CHAR)
         if complexity > 6:
             raise ValueError("La complejidad máxima permitida es 6.")
 
-        proof_char = str(proof_char or DEFAULT_PROOF_CHAR)[0]
+        if not isinstance(proof_char, str) or len(proof_char) != 1:
+            raise ValueError(
+                "El carácter de prueba de trabajo debe ser exactamente un carácter."
+            )
+
+        if not proof_char.strip():
+            raise ValueError("El carácter de prueba de trabajo no puede estar vacío.")
+
+        if blockchain_exists():
+
+            return {
+                "success": False,
+                "message": "La Blockchain ya está inicializada.",
+                "status": get_blockchain_status(),
+            }
 
         # Crear instancia del motor original
         blockchain = BlockChain(complexity, proof_char)
@@ -248,8 +254,8 @@ def get_blockchain_status():
             "initialized": False,
             "valid": False,
             "blocks": 0,
-            "complexity": DEFAULT_COMPLEXITY,
-            "proof_of_work": (DEFAULT_PROOF_CHAR * DEFAULT_COMPLEXITY),
+            "complexity": None,
+            "proof_of_work": "",
             "genesis": None,
             "message": ("La Blockchain todavía " "no ha sido inicializada."),
         }
@@ -284,8 +290,8 @@ def get_blockchain_status():
             "initialized": False,
             "valid": False,
             "blocks": 0,
-            "complexity": DEFAULT_COMPLEXITY,
-            "proof_of_work": (DEFAULT_PROOF_CHAR * DEFAULT_COMPLEXITY),
+            "complexity": None,
+            "proof_of_work": "",
             "genesis": None,
             "message": (f"Error leyendo Blockchain: {error}"),
         }

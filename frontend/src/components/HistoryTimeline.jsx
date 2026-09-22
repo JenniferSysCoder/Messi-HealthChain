@@ -11,7 +11,7 @@ export default function HistoryTimeline({ records }) {
           <div className="clinical-data">
             <div><label>Tipo de sangre</label><strong>{record.datos?.tipo_sangre || '—'}</strong></div>
             <div><label>Alergias</label><strong>{record.datos?.alergias || '—'}</strong></div>
-            <div><label>Enfermedades crónicas</label><strong>{record.datos?.enfermedades_cronicas || '—'}</strong></div>
+            <div><label>Enfermedades crónicas</label><strong>{record.datos?.cronicas || record.datos?.enfermedades_cronicas || '—'}</strong></div>
             <div><label>Vacunas</label><strong>{record.datos?.vacunas || '—'}</strong></div>
           </div>
           <small>Registro protegido y almacenado mediante Blockchain</small>

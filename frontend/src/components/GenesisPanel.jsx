@@ -7,10 +7,10 @@ export default function GenesisPanel({
 }) {
 
     const [complexity, setComplexity] =
-        useState(4);
+        useState("");
 
     const [proofChar, setProofChar] =
-        useState("0");
+        useState("");
 
     const [loading, setLoading] =
         useState(false);
@@ -33,6 +33,23 @@ export default function GenesisPanel({
 
     async function handleCreate() {
 
+        const parsedComplexity = Number(complexity);
+
+        if (
+            complexity === "" ||
+            !Number.isInteger(parsedComplexity) ||
+            parsedComplexity < 1 ||
+            parsedComplexity > 6
+        ) {
+            setError("La complejidad debe ser un número entero entre 1 y 6.");
+            return;
+        }
+
+        if (proofChar.length !== 1) {
+            setError("El carácter de prueba de trabajo debe ser exactamente un carácter.");
+            return;
+        }
+
         setLoading(true);
         setError("");
         setResult(null);
@@ -41,7 +58,7 @@ export default function GenesisPanel({
 
             const response =
                 await createGenesis(
-                    Number(complexity),
+                    parsedComplexity,
                     proofChar
                 );
 
@@ -153,11 +170,7 @@ export default function GenesisPanel({
                         type="text"
                         maxLength="1"
                         value={proofChar}
-                        onChange={(event) =>
-                            setProofChar(
-                                event.target.value
-                            )
-                        }
+                        onChange={(event) => setProofChar(event.target.value)}
                     />
 
                     <small>

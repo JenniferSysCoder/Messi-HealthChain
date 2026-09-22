@@ -155,7 +155,7 @@ export async function getBlockchainBlocks() {
 // BLOCKCHAIN - GENESIS
 // ============================================================
 
-export async function createGenesis(complexity = 4, proofChar = "0") {
+export async function createGenesis(complexity, proofChar) {
     return request("/blockchain/genesis/", {
         method: "POST",
         body: JSON.stringify({
