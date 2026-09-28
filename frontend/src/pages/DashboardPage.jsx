@@ -1,892 +1,399 @@
 import { useEffect, useMemo, useState } from "react";
-
 import {
-  createClinicalRecord,
-  createGenesis,
-  getBlockchainBlocks,
-  getBlockchainStatus,
+  createClinicalRecord, createGenesis, createNode, createPatient, deleteNode,
+  getBlockchainBlocks, getBlockchainStatus, getNodes, getPatientHistory,
+  getPatients, startNode, stopNode,
 } from "../services/api";
 
-export default function DashboardPage({
-  user,
-  patients = [],
-  selectedPatient,
-  history = [],
-  loadingHistory,
-  error,
-  onSelectPatient,
-  onBackToPatients,
-  onHistoryReload,
-  onLogout,
-  onPatientsReload,
-}) {
-  const [activeSection, setActiveSection] = useState(user?.rol === "PACIENTE" ? "history" : "dashboard");
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [blockchain, setBlockchain] = useState(null);
+const roleLabel = {
+  ADMIN: "Administrador",
+  PROFESIONAL: "Profesional de salud",
+  PACIENTE: "Paciente",
+};
+
+export default function DashboardPage({ user, onLogout }) {
+  const role = user.rol;
+  const [section, setSection] = useState(role === "PACIENTE" ? "historial" : "inicio");
+  const [nodes, setNodes] = useState(() => { try { return JSON.parse(localStorage.getItem("healthchain_nodes") || localStorage.getItem("healthchain_nodes_cache") || "[]"); } catch { return []; } });
+  const [selectedNode, setSelectedNode] = useState(() => localStorage.getItem("healthchain_selected_node") || "");
+  const [patients, setPatients] = useState(() => { try { return JSON.parse(localStorage.getItem("healthchain_patients") || localStorage.getItem("healthchain_patients_cache") || "[]"); } catch { return []; } });
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [history, setHistory] = useState([]);
   const [blocks, setBlocks] = useState([]);
-  const [loadingBlockchain, setLoadingBlockchain] = useState(false);
-  const [loadingBlocks, setLoadingBlocks] = useState(false);
-  const [recordMessage, setRecordMessage] = useState("");
-  const [recordError, setRecordError] = useState("");
-  const [category, setCategory] = useState("CONSULTA");
-  const [bloodType, setBloodType] = useState("");
-  const [allergies, setAllergies] = useState("");
-  const [vaccines, setVaccines] = useState("");
-  const [chronic, setChronic] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [genesisComplexity, setGenesisComplexity] = useState("");
-  const [genesisProofChar, setGenesisProofChar] = useState("");
-  const [genesisMessage, setGenesisMessage] = useState("");
-  const [genesisError, setGenesisError] = useState("");
-  const [creatingGenesis, setCreatingGenesis] = useState(false);
+  const [chain, setChain] = useState(null);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [showPatientForm, setShowPatientForm] = useState(false);
+  const [genesis, setGenesis] = useState({ complexity: 4, proof: "0" });
+  const [nodeForm, setNodeForm] = useState({ name: "", ip: "127.0.0.1", port: "" });
+  const [patientForm, setPatientForm] = useState({
+    nombre: "", dui: "", fecha_nacimiento: "", tipo_sangre: "", alergias: "", vacunas: "", cronicas: "", telefono: "", direccion: "",
+  });
+  const [record, setRecord] = useState({ category: "CONSULTA", blood: "", allergies: "", vaccines: "", chronic: "" });
 
-  const professionalName = user?.nombre || user?.username || "Profesional";
-  const showPatientsSection = user?.rol !== "PACIENTE";
-  const canCreateGenesis = user?.rol === "ADMIN";
-  const canReadBlocks = user?.rol === "ADMIN" || user?.rol === "PROFESIONAL";
+  const activeNodes = useMemo(() => nodes.filter((n) => n.running), [nodes]);
 
-  useEffect(() => {
-    if (selectedPatient && showPatientsSection) {
-      setActiveSection("history");
-    }
-  }, [selectedPatient, showPatientsSection]);
-
-  useEffect(() => {
-    if (activeSection === "blockchain") {
-      loadBlockchain();
-      if (canReadBlocks) {
-        loadBlocks();
+  async function loadNodes() {
+    try {
+      const r = await getNodes();
+      const nextNodes = r.nodes || [];
+      localStorage.setItem("healthchain_nodes_cache", JSON.stringify(nextNodes));
+      localStorage.setItem("healthchain_nodes", JSON.stringify(nextNodes));
+      setNodes(nextNodes);
+      const saved = localStorage.getItem("healthchain_active_node") || localStorage.getItem("healthchain_selected_node");
+      const savedNode = nextNodes.find((n) => n.name === saved);
+      const preferred = savedNode?.running ? savedNode.name : nextNodes.find((n) => n.running)?.name || nextNodes[0]?.name || "";
+      if (preferred && preferred !== selectedNode) {
+        setSelectedNode(preferred);
+        localStorage.setItem("healthchain_selected_node", preferred);
+        localStorage.setItem("healthchain_active_node", preferred);
       }
-    }
-  }, [activeSection, canReadBlocks]);
-
-  function getRoleName(role) {
-    switch (role?.toUpperCase()) {
-      case "ADMIN":
-        return "Administrador";
-      case "PROFESIONAL":
-        return "Profesional de salud";
-      case "PACIENTE":
-        return "Paciente";
-      default:
-        return "Usuario";
+    } catch (e) {
+      try {
+        const cached = JSON.parse(localStorage.getItem("healthchain_nodes_cache") || "[]");
+        setNodes(cached);
+        const active = cached.find((n) => n.running);
+        if (active) {
+          setSelectedNode(active.name);
+          localStorage.setItem("healthchain_selected_node", active.name);
+          localStorage.setItem("healthchain_active_node", active.name);
+        }
+      } catch {}
+      setError(e.message);
     }
   }
 
-  function selectSection(section) {
-    setActiveSection(section);
-    setRecordMessage("");
-    setRecordError("");
-    setGenesisMessage("");
-    setGenesisError("");
-    setMobileSidebarOpen(false);
-
-  }
-
-  async function loadBlockchain() {
+  async function loadPatients() {
     try {
-      setLoadingBlockchain(true);
-      const response = await getBlockchainStatus();
-      setBlockchain(response);
-    } catch (err) {
-      console.error(err);
-      setRecordError(err.message);
-    } finally {
-      setLoadingBlockchain(false);
+      const r = await getPatients();
+      const nextPatients = r.pacientes || [];
+      setPatients(nextPatients);
+      localStorage.setItem("healthchain_patients_cache", JSON.stringify(nextPatients));
+    } catch (e) {
+      try { setPatients(JSON.parse(localStorage.getItem("healthchain_patients") || localStorage.getItem("healthchain_patients_cache") || "[]")); } catch {}
+      setError(e.message);
     }
   }
 
-  async function loadBlocks() {
+  async function loadChain() {
+    if (!selectedNode) return;
+    setLoading(true);
+    setError("");
     try {
-      setLoadingBlocks(true);
-      const response = await getBlockchainBlocks();
-      setBlocks(response?.blocks || []);
-    } catch (err) {
-      console.error(err);
-      setRecordError(err.message);
+      const [s, b] = await Promise.all([
+        getBlockchainStatus(selectedNode),
+        getBlockchainBlocks(selectedNode),
+      ]);
+      setChain(s);
+      setBlocks(b.blocks || []);
+    } catch (e) {
+      setError(e.message);
     } finally {
-      setLoadingBlocks(false);
+      setLoading(false);
     }
   }
 
-  async function handleCreateRecord(e) {
+  async function loadHistory(patient) {
+    setSelectedPatient(patient);
+    setSection("historial");
+    setMobileMenu(false);
+    setLoading(true);
+    setError("");
+    try {
+      const r = await getPatientHistory(patient.id, selectedNode);
+      if (r.paciente) setSelectedPatient(r.paciente);
+      setHistory(r.historial || []);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadNodes();
+    loadPatients();
+  }, []);
+
+  useEffect(() => {
+    if (selectedNode) {
+      localStorage.setItem("healthchain_selected_node", selectedNode);
+      const active = nodes.find((node) => node.name === selectedNode && node.running);
+      if (active) localStorage.setItem("healthchain_active_node", selectedNode);
+      else localStorage.removeItem("healthchain_active_node");
+    }
+    if (section === "blockchain") loadChain();
+    if (section === "red") loadNodes();
+  }, [section, selectedNode]);
+
+  useEffect(() => {
+    if (role === "PACIENTE" && user.paciente_id && patients.length) {
+      const patient = patients.find((x) => x.id === user.paciente_id) || {
+        id: user.paciente_id,
+        nombre: user.nombre,
+      };
+      loadHistory(patient);
+    }
+  }, [patients, selectedNode]);
+
+  async function action(fn, success = "Operación completada.") {
+    setError("");
+    setMessage("");
+    setLoading(true);
+    try {
+      await fn();
+      setMessage(success);
+      await loadNodes();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function createServer(e) {
     e.preventDefault();
-    setRecordMessage("");
-    setRecordError("");
+    await action(async () => {
+      await createNode(nodeForm);
+      setNodeForm({ name: "", ip: "127.0.0.1", port: "" });
+    }, "Servidor configurado correctamente.");
+  }
 
-    if (!selectedPatient) {
-      setRecordError("Primero selecciona un paciente.");
-      return;
-    }
+  async function registerPatient(e) {
+    e.preventDefault();
+    await action(async () => {
+      const r = await createPatient(patientForm);
+      if (!r.success) throw new Error(r.message || "No fue posible registrar al paciente.");
+      const cached = (() => { try { return JSON.parse(localStorage.getItem("healthchain_patients_cache") || "[]"); } catch { return []; } })();
+      const updatedPatients = [...cached.filter((p) => p.id !== r.paciente?.id), ...(r.paciente ? [r.paciente] : [])];
+      localStorage.setItem("healthchain_patients_cache", JSON.stringify(updatedPatients));
+      localStorage.setItem("healthchain_patients", JSON.stringify(updatedPatients));
+      setPatientForm({ nombre: "", dui: "", fecha_nacimiento: "", tipo_sangre: "", alergias: "", vacunas: "", cronicas: "", telefono: "", direccion: "" });
+      setShowPatientForm(false);
+      await loadPatients();
+    }, "Paciente registrado correctamente.");
+  }
 
-    if (!category.trim() || !bloodType.trim() || !allergies.trim() || !vaccines.trim() || !chronic.trim()) {
-      setRecordError("Completa todos los campos clínicos obligatorios.");
-      return;
-    }
-
-    const clinicalData = {
-      nombre: selectedPatient.nombre,
-      tipo_sangre: bloodType,
-      alergias: allergies,
-      vacunas: vaccines,
-      cronicas: chronic,
-    };
-
-    try {
-      const response = await createClinicalRecord({
+  async function submitRecord(e) {
+    e.preventDefault();
+    if (!selectedPatient) return setError("Selecciona un paciente.");
+    if (!activeNodes.length) return setError("No hay un servidor HealthChain activo.");
+    const node = selectedNode || activeNodes[0].name;
+    await action(async () => {
+      const r = await createClinicalRecord({
         paciente_id: selectedPatient.id,
-        categoria: category,
-        datos: clinicalData,
+        categoria: record.category,
+        datos: {
+          nombre: selectedPatient.nombre,
+          tipo_sangre: record.blood,
+          alergias: record.allergies,
+          vacunas: record.vaccines,
+          cronicas: record.chronic,
+        },
+        node,
       });
-
-      if (!response?.success) {
-        throw new Error(response?.message || "No fue posible crear el registro.");
-      }
-
-      setRecordMessage(response.message || "Registro creado correctamente.");
-      setBloodType("");
-      setAllergies("");
-      setVaccines("");
-      setChronic("");
-      await onHistoryReload?.();
-      setActiveSection("history");
-    } catch (err) {
-      console.error(err);
-      setRecordError(err.message || "No fue posible crear el registro.");
-    }
+      if (!r.success) throw new Error(r.message || "No fue posible crear el registro.");
+      setSelectedNode(node);
+      await loadHistory(selectedPatient);
+    }, "Registro clínico minado y propagado.");
   }
 
-  async function handleCreateGenesis() {
-    setGenesisMessage("");
-    setGenesisError("");
-
-    if (genesisComplexity === "" || genesisProofChar === "") {
-      setGenesisError("Ingresa la complejidad y el carácter de prueba de trabajo.");
-      return;
-    }
-
-    const parsedComplexity = Number(genesisComplexity);
-    if (!Number.isInteger(parsedComplexity) || parsedComplexity < 1 || parsedComplexity > 6) {
-      setGenesisError("La complejidad debe ser un número entero entre 1 y 6.");
-      return;
-    }
-
-    if (genesisProofChar.length !== 1) {
-      setGenesisError("El carácter de prueba de trabajo debe ser exactamente un carácter.");
-      return;
-    }
-
-    setCreatingGenesis(true);
-
-    try {
-      const response = await createGenesis(parsedComplexity, genesisProofChar);
-
-      if (!response?.success) {
-        throw new Error(response?.message || "No fue posible crear el bloque génesis.");
-      }
-
-      setGenesisMessage(response.message || "Bloque génesis creado correctamente.");
-      await loadBlockchain();
-    } catch (err) {
-      console.error(err);
-      setGenesisError(err.message || "No fue posible crear el Genesis.");
-    } finally {
-      setCreatingGenesis(false);
-    }
+  async function doGenesis(e) {
+    e.preventDefault();
+    const activeNode = selectedNode && nodes.find((n) => n.name === selectedNode && n.running) ? selectedNode : (nodes.find((n) => n.running)?.name || localStorage.getItem("healthchain_active_node"));
+    if (!activeNode) return setError("Selecciona un servidor activo.");
+    if (chain?.blocks > 0) return setMessage("La Blockchain ya está inicializada en este nodo.");
+    await action(async () => {
+      const r = await createGenesis(Number(genesis.complexity), genesis.proof, activeNode);
+      if (!r.success) throw new Error(r.message || "No fue posible crear Genesis.");
+      setSelectedNode(activeNode);
+      localStorage.setItem("healthchain_selected_node", activeNode);
+      localStorage.setItem("healthchain_active_node", activeNode);
+      await loadChain();
+    }, "Genesis creado y propagado.");
   }
 
-  const filteredPatients = useMemo(() => {
-    const term = searchTerm.toLowerCase();
-    if (!term) return patients;
+  const nav = role === "ADMIN"
+    ? [
+        ["inicio", "⌂", "Inicio"],
+        ["pacientes", "♙", "Pacientes"],
+        ["historial", "◷", "Historial"],
+        ["blockchain", "◈", "Blockchain"],
+        ["red", "⌁", "Red de nodos"],
+      ]
+    : role === "PROFESIONAL"
+      ? [
+          ["inicio", "⌂", "Inicio"],
+          ["pacientes", "♙", "Pacientes"],
+          ["historial", "◷", "Historial"],
+          ["registro", "＋", "Registrar atención"],
+        ]
+      : [["historial", "◷", "Mi historial"]];
 
-    return patients.filter((patient) => {
-      const values = [patient?.nombre, patient?.id, patient?.dui].filter(Boolean);
-      return values.some((value) => value.toString().toLowerCase().includes(term));
-    });
-  }, [patients, searchTerm]);
+  function navigate(id) {
+    setSection(id);
+    setMessage("");
+    setError("");
+    setMobileMenu(false);
+    if (id === "pacientes") loadPatients();
+    if (id === "blockchain") loadChain();
+  }
 
   return (
-    <div className="dashboard-app">
-      <button
-        type="button"
-        className="mobile-menu-button"
-        aria-label="Abrir menú"
-        onClick={() => setMobileSidebarOpen((open) => !open)}
-      >
-        ☰
-      </button>
-
-      {mobileSidebarOpen && (
-        <button
-          type="button"
-          className="mobile-overlay"
-          aria-label="Cerrar menú"
-          onClick={() => setMobileSidebarOpen(false)}
-        />
-      )}
-
-      <aside className={`dashboard-sidebar ${mobileSidebarOpen ? "open" : ""}`}>
-        <div className="sidebar-brand">
-          <div className="sidebar-logo">M</div>
-          <div>
-            <h1>
-              MESSI <strong>HealthChain</strong>
-            </h1>
-            <span>Gestión clínica segura</span>
-          </div>
+    <div className="app-shell">
+      {mobileMenu && <button className="mobile-backdrop" aria-label="Cerrar menú" onClick={() => setMobileMenu(false)} />}
+      <aside className={`sidebar ${mobileMenu ? "open" : ""}`}>
+        <div className="brand side">
+          <div className="brand-mark">M10<span>+</span></div>
+          <div><strong>MESSI<br />HealthChain</strong><small>Historia clínica digital</small></div>
         </div>
-
-        <nav className="sidebar-nav">
-          <div className="nav-section-title">Principal</div>
-
-          {showPatientsSection && (
-            <button
-              type="button"
-              className={`nav-item ${activeSection === "dashboard" ? "active" : ""}`}
-              onClick={() => selectSection("dashboard")}
-            >
-              <span className="nav-icon">⌂</span>
-              Dashboard
-            </button>
-          )}
-
-          {showPatientsSection && (
-            <button
-              type="button"
-              className={`nav-item ${activeSection === "patients" ? "active" : ""}`}
-              onClick={() => selectSection("patients")}
-            >
-              <span className="nav-icon">♙</span>
-              Pacientes
-            </button>
-          )}
-
-          <div className="nav-section-title">Gestión clínica</div>
-
-          <button
-            type="button"
-            className={`nav-item ${activeSection === "history" ? "active" : ""}`}
-            onClick={() => {
-              if (selectedPatient || user?.rol === "PACIENTE") {
-                selectSection("history");
-              } else if (showPatientsSection) {
-                selectSection("patients");
-              }
-            }}
-          >
-            <span className="nav-icon">▣</span>
-            {user?.rol === "PACIENTE" ? "Mi historial" : "Historial clínico"}
-          </button>
-
-          {showPatientsSection && (
-            <button
-              type="button"
-              className={`nav-item ${activeSection === "record" ? "active" : ""}`}
-              onClick={() => {
-                if (selectedPatient) {
-                  selectSection("record");
-                } else {
-                  selectSection("patients");
-                }
-              }}
-            >
-              <span className="nav-icon">＋</span>
-              Nuevo registro
-            </button>
-          )}
-
-          <div className="nav-section-title">Blockchain</div>
-
-          <button
-            type="button"
-            className={`nav-item ${activeSection === "blockchain" ? "active" : ""}`}
-            onClick={() => selectSection("blockchain")}
-          >
-            <span className="nav-icon">⛓</span>
-            Blockchain
-          </button>
-        </nav>
-
-        <div className="sidebar-bottom">
-          <div className="sidebar-security">
-            <span>✓</span>
-            <div>
-              <strong>Sistema seguro</strong>
-              <small>Blockchain activo</small>
-            </div>
-          </div>
-
-          <button type="button" className="logout-button" onClick={onLogout}>
-            <span>↪</span>
-            Cerrar sesión
-          </button>
+        <div className="user-mini">
+          <div className="avatar">{user.nombre?.[0] || "U"}</div>
+          <div><b>{user.nombre}</b><span>{roleLabel[role]}</span></div>
         </div>
+        <div className="nav-label">MENÚ</div>
+        <nav>{nav.map(([id, icon, label]) => (
+          <button key={id} className={section === id ? "nav-link active" : "nav-link"} onClick={() => navigate(id)}>
+            <span>{icon}</span>{label}
+          </button>
+        ))}</nav>
+        <button className="logout" onClick={onLogout}>↪ Cerrar sesión</button>
       </aside>
 
-      <main className="dashboard-main">
-        <header className="dashboard-header">
-          <div>
-            <p className="dashboard-breadcrumb">MESSI HealthChain / {activeSection}</p>
-            <h2>
-              {activeSection === "dashboard"
-                ? `Buenos días, ${professionalName}`
-                : activeSection === "patients"
-                ? "Pacientes"
-                : activeSection === "history"
-                ? user?.rol === "PACIENTE"
-                  ? "Mi historial clínico"
-                  : "Historial clínico"
-                : activeSection === "record"
-                ? "Nuevo registro clínico"
-                : "Blockchain"}
-            </h2>
-            <p className="dashboard-subtitle">
-              {activeSection === "dashboard"
-                ? "Consulta y gestiona la información de tus pacientes."
-                : activeSection === "patients"
-                ? "Consulta los pacientes autorizados."
-                : activeSection === "history"
-                ? "Información clínica registrada en la cadena."
-                : activeSection === "record"
-                ? "Agrega un nuevo evento clínico al historial."
-                : "Estado e integridad de la cadena de bloques."}
-            </p>
+      <main className="main-area">
+        <header className="topbar">
+          <div className="top-title">
+            <button className="menu-button" onClick={() => setMobileMenu(true)} aria-label="Abrir menú">☰</button>
+            <div><span className="eyebrow">MESSI HEALTHCHAIN</span><h1>{nav.find((x) => x[0] === section)?.[2] || "Inicio"}</h1></div>
           </div>
-
-          <div className="header-user">
-            <div className="header-user-info">
-              <strong>{professionalName}</strong>
-              <span>{getRoleName(user?.rol)}</span>
-            </div>
-            <div className="header-avatar">{professionalName.charAt(0).toUpperCase()}</div>
+          <div className="top-actions">
+            {role === "ADMIN" && nodes.length > 0 && (
+              <select value={selectedNode} onChange={(e) => { const value = e.target.value; setSelectedNode(value); localStorage.setItem("healthchain_selected_node", value); const node = nodes.find((n) => n.name === value); if (node?.running) localStorage.setItem("healthchain_active_node", value); else localStorage.removeItem("healthchain_active_node"); }} aria-label="Servidor">
+                {nodes.map((n) => <option key={n.name} value={n.name}>{n.name} · {n.running ? "Activo" : "Detenido"}</option>)}
+              </select>
+            )}
+            <div className="role-chip">{roleLabel[role]}</div>
           </div>
         </header>
 
-        {(error || recordError) && (
-          <div className="dashboard-error">
-            <span>!</span>
-            {error || recordError}
-          </div>
-        )}
+        {message && <div className="alert success">✓ {message}</div>}
+        {error && <div className="alert danger">{error}</div>}
 
-        {recordMessage && (
-          <div className="dashboard-success">
-            <span>✓</span>
-            {recordMessage}
-          </div>
-        )}
-
-        {activeSection === "dashboard" && showPatientsSection && (
-          <>
-            <section className="dashboard-stats">
-              <div className="stat-card">
-                <div className="stat-icon blue">♙</div>
-                <div>
-                  <span>Pacientes registrados</span>
-                  <strong>{patients.length}</strong>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-icon green">✓</div>
-                <div>
-                  <span>Acceso autorizado</span>
-                  <strong>Activo</strong>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-icon purple">⛓</div>
-                <div>
-                  <span>Blockchain</span>
-                  <strong>Operativo</strong>
-                </div>
-              </div>
-            </section>
-
-            <section className="dashboard-panel">
-              <div className="panel-header">
-                <div>
-                  <h3>Pacientes</h3>
-                  <p>Selecciona un paciente para consultar su información.</p>
-                </div>
-                {onPatientsReload && (
-                  <button type="button" className="refresh-button" onClick={onPatientsReload}>
-                    Actualizar
-                  </button>
-                )}
-              </div>
-
-              <div className="search-box">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Buscar por nombre, ID o DUI"
-                />
-              </div>
-
-              {filteredPatients.length === 0 ? (
-                <div className="empty-state">
-                  <div className="empty-icon">♙</div>
-                  <h3>No hay pacientes</h3>
-                  <p>No existen pacientes disponibles.</p>
-                </div>
-              ) : (
-                <div className="patients-table">
-                  <div className="table-header">
-                    <span>Paciente</span>
-                    <span>Identificación</span>
-                    <span>Estado</span>
-                    <span></span>
-                  </div>
-
-                  {filteredPatients.map((patient) => (
-                    <div
-                      className="patient-row"
-                      key={patient.id}
-                      onClick={() => onSelectPatient(patient)}
-                    >
-                      <div className="patient-name">
-                        <div className="patient-avatar">{patient.nombre?.charAt(0).toUpperCase()}</div>
-                        <div>
-                          <strong>{patient.nombre}</strong>
-                          <span>Paciente</span>
-                        </div>
-                      </div>
-
-                      <span className="patient-id">{patient.dui || patient.id}</span>
-
-                      <span className="status-badge">
-                        <i></i>
-                        Registrado
-                      </span>
-
-                      <button
-                        type="button"
-                        className="view-button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectPatient(patient);
-                        }}
-                      >
-                        Ver historial →
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          </>
-        )}
-
-        {activeSection === "patients" && showPatientsSection && (
-          <section className="dashboard-panel">
-            <div className="panel-header">
-              <div>
-                <h3>Pacientes</h3>
-                <p>Selecciona un paciente para consultar su información.</p>
-              </div>
-              {onPatientsReload && (
-                <button type="button" className="refresh-button" onClick={onPatientsReload}>
-                  Actualizar
-                </button>
-              )}
-            </div>
-
-            <div className="search-box">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Buscar por nombre, ID o DUI"
-              />
-            </div>
-
-            {filteredPatients.length === 0 ? (
-              <div className="empty-state">
-                <div className="empty-icon">♙</div>
-                <h3>No hay pacientes</h3>
-                <p>No existen pacientes disponibles.</p>
-              </div>
-            ) : (
-              <div className="patients-table">
-                <div className="table-header">
-                  <span>Paciente</span>
-                  <span>Identificación</span>
-                  <span>Estado</span>
-                  <span></span>
-                </div>
-
-                {filteredPatients.map((patient) => (
-                  <div
-                    className="patient-row"
-                    key={patient.id}
-                    onClick={() => onSelectPatient(patient)}
-                  >
-                    <div className="patient-name">
-                      <div className="patient-avatar">{patient.nombre?.charAt(0).toUpperCase()}</div>
-                      <div>
-                        <strong>{patient.nombre}</strong>
-                        <span>Paciente</span>
-                      </div>
-                    </div>
-
-                    <span className="patient-id">{patient.dui || patient.id}</span>
-
-                    <span className="status-badge">
-                      <i></i>
-                      Registrado
-                    </span>
-
-                    <button
-                      type="button"
-                      className="view-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectPatient(patient);
-                      }}
-                    >
-                      Ver historial →
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-        )}
-
-        {activeSection === "history" && (
-          <>
-            {!selectedPatient ? (
-              <div className="empty-state">
-                <div className="empty-icon">♙</div>
-                <h3>{user?.rol === "PACIENTE" ? "Tu historial" : "Selecciona un paciente"}</h3>
-                <p>
-                  {user?.rol === "PACIENTE"
-                    ? "Aún no tienes un paciente asociado para consultar."
-                    : "Ve a Pacientes para consultar un historial clínico."}
-                </p>
-              </div>
-            ) : (
-              <>
-                {showPatientsSection && (
-                  <button
-                    type="button"
-                    className="back-button"
-                    onClick={() => {
-                      onBackToPatients();
-                      setActiveSection("patients");
-                    }}
-                  >
-                    ← Volver a pacientes
-                  </button>
-                )}
-
-                {user?.rol === "PROFESIONAL" && (
-                  <button
-                    type="button"
-                    className="new-record-button"
-                    onClick={() => {
-                      setRecordError("");
-                      setRecordMessage("");
-                      setActiveSection("record");
-                    }}
-                  >
-                    Nuevo registro para este paciente
-                  </button>
-                )}
-
-                <div className="patient-profile-card">
-                  <div className="large-patient-avatar">{selectedPatient.nombre?.charAt(0).toUpperCase()}</div>
-                  <div className="patient-profile-info">
-                    <span>PACIENTE</span>
-                    <h3>{selectedPatient.nombre}</h3>
-                    <p>ID: {selectedPatient.id}</p>
-                  </div>
-                  <div className="patient-chain-status">
-                    <span>✓</span>
-                    <div>
-                      <strong>Historial protegido</strong>
-                      <small>Blockchain</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="history-panel">
-                  <div className="panel-header">
-                    <div>
-                      <h3>Historial clínico</h3>
-                      <p>Eventos registrados en Blockchain.</p>
-                    </div>
-                    <div className="history-count">{history.length} registros</div>
-                  </div>
-
-                  {loadingHistory ? (
-                    <div className="loading-state">
-                      <div className="loading-spinner"></div>
-                      Consultando historial...
-                    </div>
-                  ) : history.length === 0 ? (
-                    <div className="empty-state">
-                      <div className="empty-icon">▣</div>
-                      <h3>Sin registros clínicos</h3>
-                      <p>Este paciente todavía no tiene eventos registrados.</p>
-                    </div>
-                  ) : (
-                    <div className="timeline">
-                      {history.map((record, index) => (
-                        <div className="timeline-item" key={record.id || index}>
-                          <div className="timeline-marker">✓</div>
-                          <div className="timeline-content">
-                            <div className="timeline-top">
-                              <div>
-                                <span className="timeline-category">{record.categoria}</span>
-                                <h4>Registro clínico</h4>
-                              </div>
-                              <span className="timeline-date">
-                                {record.timestamp ? new Date(record.timestamp).toLocaleDateString() : "—"}
-                              </span>
-                            </div>
-
-                            <p>
-                              Emitido por <strong>{record.entidad_emisora}</strong>
-                            </p>
-
-                            {record.datos && (
-                              <div className="clinical-data">
-                                <div>
-                                  <span>Sangre</span>
-                                  <strong>{record.datos.tipo_sangre || "—"}</strong>
-                                </div>
-                                <div>
-                                  <span>Alergias</span>
-                                  <strong>{record.datos.alergias || "—"}</strong>
-                                </div>
-                                <div>
-                                  <span>Vacunas</span>
-                                  <strong>{record.datos.vacunas || "—"}</strong>
-                                </div>
-                                <div>
-                                  <span>Crónicas</span>
-                                  <strong>{record.datos.cronicas || "—"}</strong>
-                                </div>
-                              </div>
-                            )}
-
-                            <div className="blockchain-record">⛓ Registro almacenado en Blockchain</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-          </>
-        )}
-
-        {activeSection === "record" && showPatientsSection && selectedPatient && (
-          <div className="record-panel">
-            <div className="record-patient">
-              <div className="large-patient-avatar">{selectedPatient.nombre?.charAt(0).toUpperCase()}</div>
-              <div>
-                <span>PACIENTE</span>
-                <h3>{selectedPatient.nombre}</h3>
-                <p>ID: {selectedPatient.id}</p>
-              </div>
-            </div>
-
-            <form className="record-form" onSubmit={handleCreateRecord}>
-              <div className="record-field">
-                <label>Categoría</label>
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                  <option value="CONSULTA">Consulta</option>
-                  <option value="EMERGENCIA">Emergencia</option>
-                  <option value="VACUNA">Vacuna</option>
-                  <option value="LABORATORIO">Laboratorio</option>
-                  <option value="DIAGNOSTICO">Diagnóstico</option>
-                </select>
-              </div>
-
-              <div className="record-field">
-                <label>Tipo de sangre</label>
-                <input required value={bloodType} onChange={(e) => setBloodType(e.target.value)} placeholder="Ej. O+" />
-              </div>
-
-              <div className="record-field">
-                <label>Alergias</label>
-                <input required value={allergies} onChange={(e) => setAllergies(e.target.value)} placeholder="Ej. Penicilina" />
-              </div>
-
-              <div className="record-field">
-                <label>Vacunas</label>
-                <input required value={vaccines} onChange={(e) => setVaccines(e.target.value)} placeholder="Ej. COVID-19" />
-              </div>
-
-              <div className="record-field">
-                <label>Enfermedades crónicas</label>
-                <input required value={chronic} onChange={(e) => setChronic(e.target.value)} placeholder="Ej. Asma" />
-              </div>
-
-              <div className="record-security">
-                <span>🔐</span>
-                <div>
-                  <strong>Información protegida</strong>
-                  <p>Los datos clínicos serán cifrados antes de almacenarse en el Blockchain.</p>
-                </div>
-              </div>
-
-              <div className="record-actions">
-                <button
-                  type="button"
-                  className="cancel-button"
-                  onClick={() => setActiveSection("history")}
-                >
-                  Cancelar
-                </button>
-                <button type="submit" className="record-submit">Crear y minar registro</button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {activeSection === "blockchain" && (
-          <div className="blockchain-page">
-            {loadingBlockchain ? (
-              <div className="loading-state">
-                <div className="loading-spinner"></div>
-                Consultando Blockchain...
-              </div>
-            ) : blockchain ? (
-              <>
-                <div className="blockchain-status-card">
-                  <div>
-                    <span>ESTADO DE LA CADENA</span>
-                    <h3>{blockchain.valid ? "Blockchain válida" : "Blockchain inválida"}</h3>
-                    <p>{blockchain.message}</p>
-                  </div>
-                  <div className={blockchain.valid ? "chain-valid" : "chain-invalid"}>
-                    {blockchain.valid ? "✓ Válida" : "! Error"}
-                  </div>
-                </div>
-
-                <div className="blockchain-stats">
-                  <div className="block-stat">
-                    <span>BLOQUES</span>
-                    <strong>{blockchain.blocks}</strong>
-                  </div>
-                  <div className="block-stat">
-                    <span>REGISTROS</span>
-                    <strong>
-                      {blockchain.records ??
-                        blocks.reduce(
-                          (total, block) => total + (block.a_registros?.length || 0),
-                          0,
-                        )}
-                    </strong>
-                  </div>
-                  <div className="block-stat">
-                    <span>DIFICULTAD</span>
-                    <strong>{blockchain.complexity}</strong>
-                  </div>
-                  <div className="block-stat">
-                    <span>PRUEBA</span>
-                    <strong>{blockchain.proof_of_work}</strong>
-                  </div>
-                </div>
-
-                  {canCreateGenesis && (
-                  <div className="dashboard-panel">
-                  <div className="panel-header">
-                    <div>
-                      <h3>Bloque génesis</h3>
-                      <p>Inicialización y validación de la cadena.</p>
-                    </div>
-                  </div>
-
-                  <div className="genesis-panel">
-                    <div className="genesis-controls">
-                      <label>
-                        Complejidad
-                        <input
-                          type="number"
-                          name="genesis-complexity"
-                          min="1"
-                          max="6"
-                          step="1"
-                          required
-                          value={genesisComplexity}
-                          onChange={(e) => setGenesisComplexity(e.target.value)}
-                        />
-                      </label>
-
-                      <label>
-                        Carácter de prueba
-                        <input
-                          type="text"
-                          name="genesis-proof-char"
-                          maxLength="1"
-                          required
-                          value={genesisProofChar}
-                          onChange={(e) => setGenesisProofChar(e.target.value)}
-                        />
-                      </label>
-                    </div>
-
-                    <button type="button" className="record-submit" onClick={handleCreateGenesis} disabled={creatingGenesis}>
-                      {creatingGenesis ? "Creando Genesis..." : "Crear bloque génesis"}
-                    </button>
-
-                    {genesisMessage && <div className="dashboard-success compact">{genesisMessage}</div>}
-                    {genesisError && <div className="dashboard-error compact">{genesisError}</div>}
-                  </div>
-
-                  {blockchain.last_hash && <div className="hash-display">{blockchain.last_hash}</div>}
-                  </div>
-                  )}
-
-                  {canReadBlocks && (
-                    <div className="dashboard-panel">
-                      <div className="panel-header">
-                        <div>
-                          <h3>Bloques registrados</h3>
-                          <p>Contenido persistido y validado por la cadena.</p>
-                        </div>
-                        <button type="button" className="refresh-button" onClick={loadBlocks} disabled={loadingBlocks}>
-                          {loadingBlocks ? "Consultando..." : "Actualizar"}
-                        </button>
-                      </div>
-
-                      {loadingBlocks ? (
-                        <div className="loading-state">Consultando bloques...</div>
-                      ) : blocks.length === 0 ? (
-                        <div className="empty-state">
-                          <h3>No hay bloques registrados</h3>
-                          <p>La cadena todavía no contiene bloques.</p>
-                        </div>
-                      ) : (
-                        <div className="blocks-list">
-                          {blocks.map((block) => (
-                            <div className="block-row" key={block.id}>
-                              <strong>Bloque #{block.id}</strong>
-                              <span>{block.a_registros?.length || 0} registros</span>
-                              <code>{block.hash || "Sin hash"}</code>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-              </>
-            ) : (
-              <div className="empty-state">
-                <h3>No se pudo consultar la cadena</h3>
-              </div>
-            )}
-          </div>
-        )}
+        {section === "inicio" && <Home user={user} role={role} nodes={nodes} active={activeNodes.length} setSection={navigate} />}
+        {section === "pacientes" && <Patients patients={patients} role={role} onSelect={loadHistory} onNew={() => setShowPatientForm(true)} />}
+        {section === "historial" && <History patient={selectedPatient} history={history} loading={loading} role={role} onBack={() => navigate("pacientes")} />}
+        {section === "registro" && <RecordForm patients={patients} selected={selectedPatient} setSelected={setSelectedPatient} record={record} setRecord={setRecord} onSubmit={submitRecord} />}
+        {section === "blockchain" && <Blockchain chain={chain} blocks={blocks} loading={loading} genesis={genesis} setGenesis={setGenesis} onGenesis={doGenesis} />}
+        {section === "red" && <Network nodes={nodes} form={nodeForm} setForm={setNodeForm} onCreate={createServer} onStart={(n) => action(() => startNode(n), `${n} iniciado.`)} onStop={(n) => action(() => stopNode(n), `${n} detenido.`)} onDelete={(n) => action(() => deleteNode(n), `${n} eliminado.`)} />}
       </main>
+
+      {showPatientForm && <PatientModal form={patientForm} setForm={setPatientForm} onSubmit={registerPatient} onClose={() => setShowPatientForm(false)} loading={loading} />}
     </div>
   );
+}
+
+function Home({ user, role, nodes, active, setSection }) {
+  if (role === "PACIENTE") {
+    return <section className="content">
+      <div className="welcome-card patient-welcome"><div><span className="eyebrow">BIENVENIDO</span><h2>{user.nombre}</h2><p>Consulta tu información y tu historial clínico.</p></div><div className="welcome-icon">◷</div></div>
+      <div className="quick-grid patient-quick"><Quick icon="◷" title="Mi historial" text="Consulta tus registros clínicos." onClick={() => setSection("historial")} /></div>
+    </section>;
+  }
+
+  if (role === "PROFESIONAL") {
+    return <section className="content">
+      <div className="welcome-card professional-welcome"><div><span className="eyebrow">ÁREA CLÍNICA</span><h2>{user.nombre}</h2><p>Registra pacientes, consulta historiales y documenta atenciones clínicas.</p></div><div className="welcome-icon">✚</div></div>
+      <div className="quick-grid professional-quick">
+        <Quick icon="♙" title="Pacientes" text="Buscar y registrar pacientes." onClick={() => setSection("pacientes")} />
+        <Quick icon="＋" title="Registrar atención" text="Agregar información clínica al historial." onClick={() => setSection("registro")} />
+        <Quick icon="◷" title="Historial" text="Consultar la historia de un paciente." onClick={() => setSection("historial")} />
+      </div>
+    </section>;
+  }
+
+  return <section className="content">
+    <div className="welcome-card admin-welcome"><div><span className="eyebrow">ADMINISTRACIÓN</span><h2>{user.nombre}</h2><p>Gestiona pacientes, Blockchain y la infraestructura de nodos de HealthChain.</p></div><div className="welcome-icon">⌘</div></div>
+    <div className="stats"><Stat label="Nodos activos" value={active} /><Stat label="Nodos configurados" value={nodes.length} /><Stat label="Pacientes" value="Gestión" /><Stat label="Red" value="TCP/IP" /></div>
+    <div className="quick-grid admin-quick">
+      <Quick icon="♙" title="Pacientes" text="Consultar y administrar registros." onClick={() => setSection("pacientes")} />
+      <Quick icon="◈" title="Blockchain" text="Genesis, bloques y Proof of Work." onClick={() => setSection("blockchain")} />
+      <Quick icon="⌁" title="Red de nodos" text="Servidores y conexiones TCP/IP." onClick={() => setSection("red")} />
+    </div>
+  </section>;
+}
+
+function Stat({ label, value }) { return <div className="stat"><span>{label}</span><b>{value}</b></div>; }
+function Quick({ icon, title, text, onClick }) { return <button className="quick" onClick={onClick}><i>{icon}</i><div><b>{title}</b><p>{text}</p></div><span>→</span></button>; }
+
+function Patients({ patients, role, onSelect, onNew }) {
+  return <section className="content">
+    <div className="section-head"><div><span className="eyebrow">ATENCIÓN CLÍNICA</span><h2>Pacientes</h2><p>Consulta la ficha de cada paciente y su historial.</p></div>{(role === "PROFESIONAL" || role === "ADMIN") && <button className="primary" onClick={onNew}>＋ Registrar paciente</button>}</div>
+    <div className="patient-grid">{patients.map((p) => <button className="patient" key={p.id} onClick={() => onSelect(p)}><div className="patient-avatar">{p.nombre?.[0]}</div><div><b>{p.nombre}</b><span>{p.id}</span><small>DUI: {p.dui || "—"} · Sangre: {p.tipo_sangre || "—"}</small></div><strong>→</strong></button>)}</div>
+    {!patients.length && <div className="empty">No hay pacientes registrados.</div>}
+  </section>;
+}
+
+function History({ patient, history, loading, role, onBack }) {
+  return <section className="content">
+    {role !== "PACIENTE" && <button className="back" onClick={onBack}>← Pacientes</button>}
+    <div className="profile"><div className="patient-avatar big">{patient?.nombre?.[0] || "P"}</div><div><span className="eyebrow">FICHA DEL PACIENTE</span><h2>{patient?.nombre || "Paciente"}</h2><p>{patient?.id || ""} · Tipo de sangre {patient?.tipo_sangre || "—"} · DUI {patient?.dui || "—"}</p></div></div>
+    {loading ? <div className="empty">Consultando historial…</div> : <div className="timeline">{history.map((r, i) => <article className="timeline-item" key={`${r.block_id ?? r.id}-${i}`}><div className="timeline-dot">{i + 1}</div><div className="record-card"><div className="record-top"><div><span>{r.categoria}</span><h3>{r.entidad_emisora}</h3></div><time>{r.timestamp ? new Date(r.timestamp).toLocaleString() : "Sin fecha"}</time></div><div className="clinical-grid"><Field label="Tipo de sangre" value={r.datos?.tipo_sangre} /><Field label="Alergias" value={r.datos?.alergias} /><Field label="Vacunas" value={r.datos?.vacunas} /><Field label="Enfermedades crónicas" value={r.datos?.cronicas} /></div>{r.virtual ? <small className="record-note">Ficha inicial del paciente · aún no corresponde a un bloque clínico.</small> : <small className="record-note">Bloque #{r.block_id} · Registro cifrado</small>}</div></article>)}</div>}
+  </section>;
+}
+
+function Field({ label, value }) { return <div><span>{label}</span><b>{value || "—"}</b></div>; }
+
+function RecordForm({ patients, selected, setSelected, record, setRecord, onSubmit }) {
+  return <section className="content narrow-content">
+    <div className="section-head"><div><span className="eyebrow">REGISTRO CLÍNICO</span><h2>Registrar atención</h2><p>Documenta la atención realizada al paciente.</p></div></div>
+    <form className="panel-form" onSubmit={onSubmit}>
+      <label>Paciente<select value={selected?.id || ""} onChange={(e) => setSelected(patients.find((p) => p.id === e.target.value))}><option value="">Seleccionar paciente</option>{patients.map((p) => <option key={p.id} value={p.id}>{p.nombre} · {p.id}</option>)}</select></label>
+      <label>Tipo de atención<select value={record.category} onChange={(e) => setRecord({ ...record, category: e.target.value })}><option>CONSULTA</option><option>VACUNA</option><option>EMERGENCIA</option><option>DIAGNOSTICO</option><option>LABORATORIO</option><option>SEGUIMIENTO</option></select></label>
+      <label>Tipo de sangre<input value={record.blood} onChange={(e) => setRecord({ ...record, blood: e.target.value })} required /></label>
+      <label>Alergias<input value={record.allergies} onChange={(e) => setRecord({ ...record, allergies: e.target.value })} required /></label>
+      <label>Vacunas<input value={record.vaccines} onChange={(e) => setRecord({ ...record, vaccines: e.target.value })} required /></label>
+      <label>Enfermedades crónicas<input value={record.chronic} onChange={(e) => setRecord({ ...record, chronic: e.target.value })} required /></label>
+      <button className="primary form-submit" type="submit">Guardar atención y registrar en Blockchain</button>
+    </form>
+  </section>;
+}
+
+function PatientModal({ form, setForm, onSubmit, onClose, loading }) {
+  const update = (key, value) => setForm((old) => ({ ...old, [key]: value }));
+  return <div className="modal-backdrop" onMouseDown={onClose}><div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
+    <div className="modal-head"><div><span className="eyebrow">NUEVO PACIENTE</span><h2>Registrar paciente</h2><p>Completa los datos básicos de identificación.</p></div><button className="icon-button" onClick={onClose}>×</button></div>
+    <form className="patient-form" onSubmit={onSubmit}>
+      <div className="form-section-title">Identificación</div>
+      <label>Nombre completo<input value={form.nombre} onChange={(e) => update("nombre", e.target.value)} required /></label>
+      <label>DUI<input value={form.dui} onChange={(e) => update("dui", e.target.value)} required /></label>
+      <label>Fecha de nacimiento<input type="date" value={form.fecha_nacimiento} onChange={(e) => update("fecha_nacimiento", e.target.value)} required /></label>
+      <label>Tipo de sangre<select value={form.tipo_sangre} onChange={(e) => update("tipo_sangre", e.target.value)} required><option value="">Seleccionar</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select></label>
+      <div className="form-section-title">Información clínica inicial</div>
+      <label>Alergias<input placeholder="Ej. Penicilina, mariscos o Ninguna" value={form.alergias} onChange={(e) => update("alergias", e.target.value)} required /></label>
+      <label>Vacunas<input placeholder="Ej. COVID-19, influenza o Ninguna" value={form.vacunas} onChange={(e) => update("vacunas", e.target.value)} required /></label>
+      <label>Enfermedades crónicas<input placeholder="Ej. Asma, diabetes o Ninguna" value={form.cronicas} onChange={(e) => update("cronicas", e.target.value)} required /></label>
+      <div className="form-section-title">Contacto</div>
+      <label>Teléfono<input value={form.telefono} onChange={(e) => update("telefono", e.target.value)} /></label>
+      <label>Dirección<input value={form.direccion} onChange={(e) => update("direccion", e.target.value)} /></label>
+      <div className="modal-actions"><button type="button" className="secondary" onClick={onClose}>Cancelar</button><button className="primary" disabled={loading}>{loading ? "Guardando…" : "Registrar paciente"}</button></div>
+    </form>
+  </div></div>;
+}
+
+function Blockchain({ chain, blocks, loading, genesis, setGenesis, onGenesis }) {
+  return <section className="content">
+    <div className="section-head"><div><span className="eyebrow">ADMINISTRACIÓN</span><h2>Blockchain</h2><p>Estado de la cadena, Genesis y Proof of Work.</p></div><span className={chain?.valid ? "status ok" : "status"}>{chain?.valid ? "Cadena válida" : "Pendiente"}</span></div>
+    <div className="stats"><Stat label="Bloques" value={chain?.blocks ?? 0} /><Stat label="Complejidad" value={chain?.complexity ?? "—"} /><Stat label="Proof" value={chain?.proof_of_work || "—"} /><Stat label="Estado" value={loading ? "…" : chain?.valid ? "Íntegra" : "Pendiente"} /></div>
+    <div className="two-col"><div className="panel"><h3>Inicializar Genesis</h3><form className="inline-form" onSubmit={onGenesis}><input type="number" min="1" max="6" value={genesis.complexity} onChange={(e) => setGenesis({ ...genesis, complexity: e.target.value })} /><input maxLength="1" value={genesis.proof} onChange={(e) => setGenesis({ ...genesis, proof: e.target.value })} /><button className="primary" disabled={loading || (chain?.blocks ?? 0) > 0}>{chain?.blocks ? "Genesis ya creado" : "Crear Genesis"}</button></form><p className="muted">Se crea en el nodo seleccionado y se propaga al resto de la red.</p></div><div className="panel"><h3>Bloques almacenados</h3><div className="block-list">{blocks.map((b) => <div className="block-row" key={b.hash}><b>#{b.id}</b><span>{b.hash}</span><small>nonce {b.nonce}</small></div>)}</div></div></div>
+  </section>;
+}
+
+function Network({ nodes, form, setForm, onCreate, onStart, onStop, onDelete }) {
+  return <section className="content">
+    <div className="section-head"><div><span className="eyebrow">INFRAESTRUCTURA</span><h2>Red de nodos</h2><p>Servidores TCP/IP reales de HealthChain.</p></div><span className="status ok">{nodes.filter((n) => n.running).length} activos</span></div>
+    <div className="network-layout"><div className="node-stack">{nodes.map((n) => <div className="node-card" key={n.name}><div className="node-icon">⌁</div><div className="node-main"><span>{n.name}</span><b>{n.ip}:{n.port}</b><small>{n.pid ? `PID ${n.pid} · ` : ""}{n.running ? "Servidor escuchando" : "Servidor detenido"}</small></div><strong className={n.running ? "node-on" : "node-off"}>{n.running ? "ACTIVO" : "DETENIDO"}</strong><div className="node-actions">{n.running ? <button onClick={() => onStop(n.name)}>Detener</button> : <button onClick={() => onStart(n.name)}>Iniciar</button>}{!n.running && <button className="danger-link" onClick={() => onDelete(n.name)}>Eliminar</button>}</div></div>)}</div><form className="panel node-create" onSubmit={onCreate}><h3>Crear servidor</h3><p>Configura una nueva instancia de la red.</p><label>Nombre<input placeholder="NODO_1" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></label><label>IP<input placeholder="127.0.0.1" value={form.ip} onChange={(e) => setForm({ ...form, ip: e.target.value })} required /></label><label>Puerto<input type="number" min="1024" max="65535" placeholder="5001" value={form.port} onChange={(e) => setForm({ ...form, port: e.target.value })} required /></label><button className="primary">＋ Crear servidor</button></form></div>
+    <div className="network-flow"><span>Wallet / Cliente</span><b>TCP/IP</b><span>Servidor</span><b>broadcast</b><span>Otros nodos</span></div>
+  </section>;
 }

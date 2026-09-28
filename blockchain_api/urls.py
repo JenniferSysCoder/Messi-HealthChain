@@ -1,67 +1,20 @@
 from django.urls import path
-
 from .views import (
-    BlockchainBlocksView,
-    BlockchainGenesisView,
-    BlockchainStatusView,
-    LoginView,
-    PacienteHistorialView,
-    PacientesView,
-    PerfilView,
-    RegistroClinicoView,
+    BlockchainBlocksView, BlockchainGenesisView, BlockchainStatusView,
+    LoginView, NodesView, NodeActionView, NodeDeleteView,
+    PacienteHistorialView, PacientesView, PerfilView, RegistroClinicoView,
 )
 
 urlpatterns = [
-    # ========================================================
-    # AUTENTICACIÓN
-    # ========================================================
-    path(
-        "login/",
-        LoginView.as_view(),
-        name="login",
-    ),
-    path(
-        "perfil/",
-        PerfilView.as_view(),
-        name="perfil",
-    ),
-    # ========================================================
-    # BLOCKCHAIN
-    # ========================================================
-    path(
-        "blockchain/status/",
-        BlockchainStatusView.as_view(),
-        name="blockchain-status",
-    ),
-    path(
-        "blockchain/genesis/",
-        BlockchainGenesisView.as_view(),
-        name="blockchain-genesis",
-    ),
-    path(
-        "blockchain/blocks/",
-        BlockchainBlocksView.as_view(),
-        name="blockchain-blocks",
-    ),
-    # ========================================================
-    # PACIENTES
-    # ========================================================
-    path(
-        "pacientes/",
-        PacientesView.as_view(),
-        name="pacientes",
-    ),
-    path(
-        "pacientes/<str:paciente_id>/historial/",
-        PacienteHistorialView.as_view(),
-        name="paciente-historial",
-    ),
-    # ========================================================
-    # REGISTROS CLÍNICOS
-    # ========================================================
-    path(
-        "registros/",
-        RegistroClinicoView.as_view(),
-        name="registro-clinico",
-    ),
+    path("login/", LoginView.as_view()),
+    path("perfil/", PerfilView.as_view()),
+    path("blockchain/status/", BlockchainStatusView.as_view()),
+    path("blockchain/genesis/", BlockchainGenesisView.as_view()),
+    path("blockchain/blocks/", BlockchainBlocksView.as_view()),
+    path("pacientes/", PacientesView.as_view()),
+    path("pacientes/<str:paciente_id>/historial/", PacienteHistorialView.as_view()),
+    path("registros/", RegistroClinicoView.as_view()),
+    path("nodes/", NodesView.as_view()),
+    path("nodes/<str:node_name>/<str:action>/", NodeActionView.as_view()),
+    path("nodes/<str:node_name>/", NodeDeleteView.as_view()),
 ]

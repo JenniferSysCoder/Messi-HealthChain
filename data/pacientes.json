@@ -5,20 +5,29 @@
     "dui": "00000000-0",
     "fecha_nacimiento": "2000-05-15",
     "tipo_sangre": "O+",
-    "usuario": "paciente.demo"
+    "usuario": "paciente.demo",
+    "alergias": "Ninguna registrada",
+    "vacunas": "No registradas",
+    "cronicas": "Ninguna registrada"
   },
   {
     "id": "P002",
     "nombre": "Carlos Hernández",
     "dui": "11111111-1",
     "fecha_nacimiento": "1998-08-21",
-    "tipo_sangre": "A+"
+    "tipo_sangre": "A+",
+    "alergias": "Ninguna registrada",
+    "vacunas": "No registradas",
+    "cronicas": "Ninguna registrada"
   },
   {
     "id": "P003",
     "nombre": "Ana Martínez",
     "dui": "22222222-2",
     "fecha_nacimiento": "2002-03-10",
-    "tipo_sangre": "B+"
+    "tipo_sangre": "B+",
+    "alergias": "Ninguna registrada",
+    "vacunas": "No registradas",
+    "cronicas": "Ninguna registrada"
   }
 ]

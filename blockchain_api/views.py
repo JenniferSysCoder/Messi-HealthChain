@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .authentication import JWTAuthentication
-from .repositories.json_repository import read
+from .nodes.node_manager import NodeManager
+from .repositories.json_repository import read, write
 from .services.auth_service import authenticate
 from .services.blockchain_service import (
     create_clinical_record,
@@ -13,12 +14,12 @@ from .services.blockchain_service import (
     get_blocks,
     get_patient_history,
 )
+from .services.node_service import NodeService
 
 
 def _serialize_user(usuario):
     if not usuario:
         return None
-
     return {
         "username": usuario.get("username"),
         "nombre": usuario.get("nombre"),
@@ -30,606 +31,263 @@ def _serialize_user(usuario):
     }
 
 
-# ============================================================
-# FUNCIONES AUXILIARES
-# ============================================================
-
-
-def _get_authenticated_user(request):
-    """
-    Devuelve el usuario autenticado mediante JWT.
-    """
-    return request.user
-
-
 def _require_role(request, roles):
-    """
-    Verifica que el usuario tenga uno de los roles permitidos.
-    """
-
-    user = _get_authenticated_user(request)
-
-    if not getattr(user, "is_authenticated", False):
-        return False
-
-    return getattr(user, "rol", None) in roles
+    return getattr(request.user, "is_authenticated", False) and getattr(request.user, "rol", None) in roles
 
 
-# ============================================================
-# LOGIN
-# ============================================================
+def _patient_history_record(patient):
+    return {
+        "id": f"PACIENTE-{patient.get('id')}",
+        "timestamp": patient.get("fecha_registro", ""),
+        "entidad_emisora": "Registro de paciente",
+        "paciente_id": patient.get("id", ""),
+        "categoria": "REGISTRO_PACIENTE",
+        "datos": {
+            "nombre": patient.get("nombre", ""),
+            "dui": patient.get("dui", ""),
+            "fecha_nacimiento": patient.get("fecha_nacimiento", ""),
+            "tipo_sangre": patient.get("tipo_sangre", ""),
+            "alergias": patient.get("alergias", ""),
+            "vacunas": patient.get("vacunas", ""),
+            "cronicas": patient.get("cronicas", ""),
+            "telefono": patient.get("telefono", ""),
+            "direccion": patient.get("direccion", ""),
+        },
+        "block_id": None,
+        "block_hash": None,
+        "virtual": True,
+    }
 
 
 class LoginView(APIView):
-    """
-    Inicio de sesión de HealthChain.
-    """
-
     permission_classes = [AllowAny]
 
     def post(self, request):
-
         username = str(request.data.get("username", "")).strip()
-
         password = str(request.data.get("password", ""))
-
         if not username or not password:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": ("Debe proporcionar usuario " "y contraseña."),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # ----------------------------------------------------
-        # AUTENTICAR USUARIO
-        # ----------------------------------------------------
-
-        resultado = authenticate(username, password)
-
-        if resultado is None:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": ("Usuario o contraseña incorrectos."),
-                },
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        usuario, token = resultado
-
-        # ----------------------------------------------------
-        # RESPUESTA
-        # ----------------------------------------------------
-
-        return Response(
-            {
-                "success": True,
-                "message": "Inicio de sesión correcto.",
-                "token": token,
-                "usuario": _serialize_user(usuario),
-            },
-            status=status.HTTP_200_OK,
-        )
+            return Response({"success": False, "message": "Debe proporcionar usuario y contraseña."}, status=400)
+        result = authenticate(username, password)
+        if result is None:
+            return Response({"success": False, "message": "Usuario o contraseña incorrectos."}, status=401)
+        user, token = result
+        return Response({"success": True, "token": token, "usuario": _serialize_user(user)}, status=200)
 
 
 class PerfilView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        user = request.user
-
-        if not getattr(user, "is_authenticated", False):
-            return Response(
-                {
-                    "success": False,
-                    "message": "No autenticado.",
-                },
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        payload = {
-            "username": getattr(user, "username", None),
-            "nombre": getattr(user, "nombre", None),
-            "rol": getattr(user, "rol", None),
-            "jvpm": getattr(user, "jvpm", None),
-            "entidad_id": getattr(user, "entidad_id", None),
-            "entidad_nombre": getattr(user, "entidad_nombre", None),
-            "paciente_id": getattr(user, "paciente_id", None),
-        }
-
-        return Response(
-            {
-                "success": True,
-                "usuario": payload,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-
-# ============================================================
-# ESTADO DE BLOCKCHAIN
-# ============================================================
+        return Response({"success": True, "usuario": _serialize_user(vars(request.user))})
 
 
 class BlockchainStatusView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-
-        if not _require_role(
-            request,
-            [
-                "ADMIN",
-                "PROFESIONAL",
-                "PACIENTE",
-            ],
-        ):
-
-            return Response(
-                {
-                    "success": False,
-                    "message": "No autorizado.",
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        return Response(
-            get_blockchain_status(),
-            status=status.HTTP_200_OK,
-        )
-
-
-# ============================================================
-# GENESIS
-# ============================================================
+        if not _require_role(request, ["ADMIN", "PROFESIONAL", "PACIENTE"]):
+            return Response({"success": False, "message": "No autorizado."}, status=403)
+        return Response({"success": True, **get_blockchain_status(request.query_params.get("node"))})
 
 
 class BlockchainGenesisView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
     def post(self, request):
-
-        # Solo ADMIN puede inicializar Blockchain
-        if not _require_role(
-            request,
-            ["ADMIN"],
-        ):
-
-            return Response(
-                {
-                    "success": False,
-                    "message": (
-                        "Solo un administrador " "puede inicializar la Blockchain."
-                    ),
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        complexity = request.data.get("complexity")
-        proof_char = request.data.get("proof_char")
-
-        if (
-            complexity in (None, "")
-            or proof_char in (None, "")
-            or (isinstance(proof_char, str) and not proof_char.strip())
-        ):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Debe especificar la complejidad y el carácter de prueba de trabajo.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        resultado = create_genesis(
-            complexity=complexity,
-            proof_char=proof_char,
-        )
-
-        if resultado.get("success"):
-
-            return Response(
-                resultado,
-                status=status.HTTP_201_CREATED,
-            )
-
-        return Response(
-            resultado,
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-
-# ============================================================
-# BLOQUES
-# ============================================================
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede inicializar la Blockchain."}, status=403)
+        complexity = request.data.get("complexity", 4)
+        proof_char = request.data.get("proof_char", "0")
+        node = request.data.get("node")
+        result = create_genesis(complexity, proof_char, node)
+        if result.get("success"):
+            return Response(result, status=201 if result.get("created", True) else 200)
+        return Response(result, status=400)
 
 
 class BlockchainBlocksView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-
-        if not _require_role(
-            request,
-            [
-                "ADMIN",
-                "PROFESIONAL",
-            ],
-        ):
-
-            return Response(
-                {
-                    "success": False,
-                    "message": "No autorizado.",
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        return Response(
-            {
-                "success": True,
-                "blocks": get_blocks(),
-            },
-            status=status.HTTP_200_OK,
-        )
-
-
-# ============================================================
-# PACIENTES
-# ============================================================
+        if not _require_role(request, ["ADMIN", "PROFESIONAL"]):
+            return Response({"success": False, "message": "No autorizado."}, status=403)
+        return Response({"success": True, "blocks": get_blocks(request.query_params.get("node"))})
 
 
 class PacientesView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
+        role = getattr(request.user, "rol", None)
+        if role == "PACIENTE":
+            patients = [p for p in read("pacientes.json", []) if p.get("id") == getattr(request.user, "paciente_id", None)]
+        elif role in ["ADMIN", "PROFESIONAL"]:
+            patients = read("pacientes.json", [])
+        else:
+            return Response({"success": False, "message": "No autorizado."}, status=403)
+        return Response({"success": True, "pacientes": patients})
 
-        if not _require_role(
-            request,
-            [
-                "ADMIN",
-                "PROFESIONAL",
-            ],
-        ):
+    def post(self, request):
+        if getattr(request.user, "rol", None) not in ["ADMIN", "PROFESIONAL"]:
+            return Response({"success": False, "message": "No autorizado."}, status=403)
 
-            return Response(
-                {
-                    "success": False,
-                    "message": "No autorizado.",
-                },
-                status=status.HTTP_403_FORBIDDEN,
+        required = ["nombre", "dui", "fecha_nacimiento", "tipo_sangre", "alergias", "vacunas", "cronicas"]
+        data = {key: str(request.data.get(key, "")).strip() for key in required}
+        if any(not value for value in data.values()):
+            return Response({"success": False, "message": "Nombre, DUI, fecha de nacimiento, tipo de sangre, alergias, vacunas y enfermedades crónicas son obligatorios."}, status=400)
+
+        patients = read("pacientes.json", [])
+        if any(p.get("dui") == data["dui"] for p in patients):
+            return Response({"success": False, "message": "Ya existe un paciente con ese DUI."}, status=409)
+
+        numeric_ids = []
+        for patient in patients:
+            value = str(patient.get("id", ""))
+            if value.startswith("P") and value[1:].isdigit():
+                numeric_ids.append(int(value[1:]))
+        next_id = max(numeric_ids, default=0) + 1
+
+        patient = {
+            "id": f"P{next_id:03d}",
+            "nombre": data["nombre"],
+            "dui": data["dui"],
+            "fecha_nacimiento": data["fecha_nacimiento"],
+            "tipo_sangre": data["tipo_sangre"],
+            "alergias": data["alergias"],
+            "vacunas": data["vacunas"],
+            "cronicas": data["cronicas"],
+            "telefono": str(request.data.get("telefono", "")).strip(),
+            "direccion": str(request.data.get("direccion", "")).strip(),
+            "fecha_registro": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+            "estado": "ACTIVO",
+        }
+        from datetime import datetime
+        patient["fecha_registro"] = datetime.now().isoformat(timespec="seconds")
+        patients.append(patient)
+        write("pacientes.json", patients)
+
+        # El registro de perfil queda persistido en JSON desde el primer momento.
+        # Si existe un nodo TCP activo, también se convierte en un registro Blockchain.
+        history_record = _patient_history_record(patient)
+        histories = read("historiales.json", [])
+        histories = [h for h in histories if h.get("paciente_id") != patient["id"]]
+        histories.append(history_record)
+        write("historiales.json", histories)
+
+        try:
+            node_service = NodeService()
+            active_node = node_service.get_active_node()
+            blockchain_record = node_service.create_record(
+                patient["id"],
+                "REGISTRO_PACIENTE",
+                history_record["datos"],
+                "Registro de paciente",
+                active_node.get_node_name(),
             )
+            if blockchain_record and blockchain_record.get("success"):
+                history_record = {**history_record, "blockchain": True, "block": blockchain_record}
+        except Exception:
+            pass
 
-        pacientes = read(
-            "pacientes.json",
-            [],
-        )
-
-        return Response(
-            {
-                "success": True,
-                "pacientes": pacientes,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-
-# ============================================================
-# HISTORIAL DE PACIENTE
-# ============================================================
+        return Response({"success": True, "paciente": patient, "history_record": history_record}, status=201)
 
 
 class PacienteHistorialView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
-    def get(
-        self,
-        request,
-        paciente_id,
-    ):
-
-        user = request.user
-
-        rol = getattr(
-            user,
-            "rol",
-            None,
-        )
-
-        # ----------------------------------------------------
-        # PACIENTE SOLO PUEDE CONSULTAR SU HISTORIAL
-        # ----------------------------------------------------
-
-        if rol == "PACIENTE":
-
-            if (
-                getattr(
-                    user,
-                    "paciente_id",
-                    None,
-                )
-                != paciente_id
-            ):
-
-                return Response(
-                    {
-                        "success": False,
-                        "message": (
-                            "Un paciente solo puede " "consultar su propio historial."
-                        ),
-                    },
-                    status=status.HTTP_403_FORBIDDEN,
-                )
-
-        elif rol not in [
-            "ADMIN",
-            "PROFESIONAL",
-        ]:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": "No autorizado.",
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        historial = get_patient_history(paciente_id)
-
-        return Response(
-            {
-                "success": True,
-                "paciente_id": paciente_id,
-                "historial": historial,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-
-# ============================================================
-# REGISTRO CLÍNICO
-# ============================================================
+    def get(self, request, paciente_id):
+        role = getattr(request.user, "rol", None)
+        if role == "PACIENTE" and getattr(request.user, "paciente_id", None) != paciente_id:
+            return Response({"success": False, "message": "Solo puede consultar su propio historial."}, status=403)
+        if role not in ["ADMIN", "PROFESIONAL", "PACIENTE"]:
+            return Response({"success": False, "message": "No autorizado."}, status=403)
+        result = get_patient_history(paciente_id, request.query_params.get("node"))
+        patient = next((p for p in read("pacientes.json", []) if p.get("id") == paciente_id), None)
+        if not result:
+            histories = read("historiales.json", [])
+            result = [h for h in histories if h.get("paciente_id") == paciente_id]
+        if not result and patient:
+            result = [_patient_history_record(patient)]
+        return Response({"success": True, "paciente_id": paciente_id, "historial": result, "paciente": patient})
 
 
 class RegistroClinicoView(APIView):
-
     authentication_classes = [JWTAuthentication]
 
     def post(self, request):
-
         user = request.user
-
-        # ----------------------------------------------------
-        # SOLO PROFESIONALES
-        # ----------------------------------------------------
-
-        if (
-            getattr(
-                user,
-                "rol",
-                None,
-            )
-            != "PROFESIONAL"
-        ):
-
-            return Response(
-                {
-                    "success": False,
-                    "message": (
-                        "Solo los profesionales autorizados "
-                        "pueden crear registros clínicos."
-                    ),
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        # ----------------------------------------------------
-        # VALIDAR JVPM
-        # ----------------------------------------------------
-
-        jvpm = getattr(
-            user,
-            "jvpm",
-            None,
+        if getattr(user, "rol", None) != "PROFESIONAL":
+            return Response({"success": False, "message": "Solo los profesionales pueden crear registros clínicos."}, status=403)
+        if not getattr(user, "jvpm", None):
+            return Response({"success": False, "message": "El profesional no tiene JVPM."}, status=403)
+        paciente_id = str(request.data.get("paciente_id", "")).strip()
+        categoria = str(request.data.get("categoria", "")).strip()
+        datos = request.data.get("datos", {})
+        if not paciente_id or not categoria or not isinstance(datos, dict):
+            return Response({"success": False, "message": "Paciente, categoría y datos clínicos son obligatorios."}, status=400)
+        paciente = next((p for p in read("pacientes.json", []) if p.get("id") == paciente_id), None)
+        if not paciente:
+            return Response({"success": False, "message": "El paciente no está registrado."}, status=404)
+        datos["nombre"] = paciente.get("nombre", datos.get("nombre", ""))
+        required = ["nombre", "tipo_sangre", "alergias", "vacunas", "cronicas"]
+        missing = [field for field in required if not str(datos.get(field, "")).strip()]
+        if missing:
+            return Response({"success": False, "message": "Faltan campos: " + ", ".join(missing)}, status=400)
+        result = create_clinical_record(
+            paciente_id,
+            categoria,
+            datos,
+            getattr(user, "entidad_nombre", ""),
+            request.data.get("node"),
         )
+        return Response(result, status=201 if result.get("success") else 400)
 
-        if not jvpm:
 
-            return Response(
-                {
-                    "success": False,
-                    "message": ("El profesional no tiene " "un JVPM válido."),
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
+class NodesView(APIView):
+    authentication_classes = [JWTAuthentication]
 
-        # ----------------------------------------------------
-        # ENTIDAD DEL PROFESIONAL
-        # ----------------------------------------------------
+    def get(self, request):
+        if not _require_role(request, ["ADMIN", "PROFESIONAL"]):
+            return Response({"success": False, "message": "No autorizado."}, status=403)
+        return Response({"success": True, "nodes": NodeService().list_nodes()})
 
-        entidad_emisora = getattr(
-            user,
-            "entidad_nombre",
-            None,
-        )
+    def post(self, request):
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede crear nodos."}, status=403)
+        try:
+            node = NodeService().create(request.data.get("name"), request.data.get("ip", "127.0.0.1"), request.data.get("port"))
+            return Response({"success": True, "node": node}, status=201)
+        except Exception as error:
+            return Response({"success": False, "message": str(error)}, status=400)
 
-        if not entidad_emisora:
 
-            return Response(
-                {
-                    "success": False,
-                    "message": ("El profesional no tiene " "una entidad asociada."),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+class NodeActionView(APIView):
+    authentication_classes = [JWTAuthentication]
 
-        # ----------------------------------------------------
-        # DATOS DEL REGISTRO
-        # ----------------------------------------------------
+    def post(self, request, node_name, action):
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede administrar servidores."}, status=403)
+        service = NodeService()
+        try:
+            if action == "start":
+                result = service.start(node_name, request.data.get("complexity", 4), request.data.get("proof_char", "0"))
+            elif action == "stop":
+                result = service.stop(node_name)
+            else:
+                return Response({"success": False, "message": "Acción inválida."}, status=400)
+            return Response({"success": True, "node": result})
+        except Exception as error:
+            return Response({"success": False, "message": str(error)}, status=400)
 
-        paciente_id_value = request.data.get("paciente_id")
-        categoria_value = request.data.get("categoria")
 
-        paciente_id = (
-            str(paciente_id_value).strip() if paciente_id_value is not None else ""
-        )
-        categoria = str(categoria_value).strip() if categoria_value is not None else ""
+class NodeDeleteView(APIView):
+    authentication_classes = [JWTAuthentication]
 
-        datos_clinicos = request.data.get(
-            "datos",
-            {},
-        )
-
-        if not paciente_id:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": ("Debe especificar el paciente."),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if not categoria:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": ("Debe especificar la categoría."),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if not isinstance(
-            datos_clinicos,
-            dict,
-        ):
-
-            return Response(
-                {
-                    "success": False,
-                    "message": (
-                        "Los datos clínicos deben " "enviarse como objeto JSON."
-                    ),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        required_clinical_fields = (
-            "nombre",
-            "tipo_sangre",
-            "alergias",
-            "vacunas",
-            "cronicas",
-        )
-        missing_fields = [
-            field
-            for field in required_clinical_fields
-            if not str(datos_clinicos.get(field, "")).strip()
-        ]
-
-        if missing_fields:
-            return Response(
-                {
-                    "success": False,
-                    "message": "Faltan campos clínicos obligatorios: "
-                    + ", ".join(missing_fields)
-                    + ".",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # ----------------------------------------------------
-        # VERIFICAR PACIENTE
-        # ----------------------------------------------------
-
-        pacientes = read(
-            "pacientes.json",
-            [],
-        )
-
-        paciente = None
-
-        for item in pacientes:
-
-            if (
-                str(
-                    item.get(
-                        "id",
-                        "",
-                    )
-                )
-                == paciente_id
-            ):
-
-                paciente = item
-                break
-
-        if paciente is None:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": ("El paciente no está registrado."),
-                },
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        # ----------------------------------------------------
-        # VALIDACIÓN DEL NOMBRE
-        # ----------------------------------------------------
-
-        nombre_paciente = paciente.get(
-            "nombre",
-            "",
-        )
-
-        nombre_datos = datos_clinicos.get(
-            "nombre",
-            "",
-        )
-
-        if nombre_datos and nombre_paciente and nombre_datos != nombre_paciente:
-
-            return Response(
-                {
-                    "success": False,
-                    "message": (
-                        "El nombre del paciente " "no coincide con el registro."
-                    ),
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # ----------------------------------------------------
-        # CREAR REGISTRO EN BLOCKCHAIN
-        # ----------------------------------------------------
-
-        resultado = create_clinical_record(
-            paciente_id=paciente_id,
-            categoria=categoria,
-            datos_clinicos=datos_clinicos,
-            entidad_emisora=entidad_emisora,
-        )
-
-        if resultado.get("success"):
-
-            return Response(
-                resultado,
-                status=status.HTTP_201_CREATED,
-            )
-
-        return Response(
-            resultado,
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+    def delete(self, request, node_name):
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede eliminar nodos."}, status=403)
+        try:
+            NodeService().delete(node_name)
+            return Response({"success": True})
+        except Exception as error:
+            return Response({"success": False, "message": str(error)}, status=400)

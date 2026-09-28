@@ -1,0 +1,65 @@
+[
+  {
+    "id": "PACIENTE-P001",
+    "timestamp": "",
+    "entidad_emisora": "Registro de paciente",
+    "paciente_id": "P001",
+    "categoria": "REGISTRO_PACIENTE",
+    "datos": {
+      "nombre": "María López",
+      "dui": "00000000-0",
+      "fecha_nacimiento": "2000-05-15",
+      "tipo_sangre": "O+",
+      "alergias": "Ninguna registrada",
+      "vacunas": "No registradas",
+      "cronicas": "Ninguna registrada",
+      "telefono": "",
+      "direccion": ""
+    },
+    "block_id": null,
+    "block_hash": null,
+    "virtual": true
+  },
+  {
+    "id": "PACIENTE-P002",
+    "timestamp": "",
+    "entidad_emisora": "Registro de paciente",
+    "paciente_id": "P002",
+    "categoria": "REGISTRO_PACIENTE",
+    "datos": {
+      "nombre": "Carlos Hernández",
+      "dui": "11111111-1",
+      "fecha_nacimiento": "1998-08-21",
+      "tipo_sangre": "A+",
+      "alergias": "Ninguna registrada",
+      "vacunas": "No registradas",
+      "cronicas": "Ninguna registrada",
+      "telefono": "",
+      "direccion": ""
+    },
+    "block_id": null,
+    "block_hash": null,
+    "virtual": true
+  },
+  {
+    "id": "PACIENTE-P003",
+    "timestamp": "",
+    "entidad_emisora": "Registro de paciente",
+    "paciente_id": "P003",
+    "categoria": "REGISTRO_PACIENTE",
+    "datos": {
+      "nombre": "Ana Martínez",
+      "dui": "22222222-2",
+      "fecha_nacimiento": "2002-03-10",
+      "tipo_sangre": "B+",
+      "alergias": "Ninguna registrada",
+      "vacunas": "No registradas",
+      "cronicas": "Ninguna registrada",
+      "telefono": "",
+      "direccion": ""
+    },
+    "block_id": null,
+    "block_hash": null,
+    "virtual": true
+  }
+]
