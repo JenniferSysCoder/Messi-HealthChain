@@ -117,7 +117,7 @@ class BlockchainServer:
     def _create_record_response(self, message):
         with self.lock:
             if self.blockchain.size() == 0:
-                self._create_genesis_locked()
+                return {"success": False, "message": "La Blockchain de este servidor no está inicializada. El ADMIN debe crear Genesis antes de registrar eventos clínicos."}
             self.blockchain.create_block()
             block = self.blockchain.get_last_block()
             block.set_registro_clinico(

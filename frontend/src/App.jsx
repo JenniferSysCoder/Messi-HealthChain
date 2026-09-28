@@ -4,7 +4,26 @@ import DashboardPage from "./pages/DashboardPage";
 import { getProfile, logout } from "./services/api";
 import "./styles.css";
 
+
+const STORAGE_VERSION = "messi-healthchain-role-flow-v4";
+
+function useStorageMigration() {
+  const current = localStorage.getItem("healthchain_storage_version");
+  if (current !== STORAGE_VERSION) {
+    [
+      "healthchain_nodes",
+      "healthchain_nodes_cache",
+      "healthchain_selected_node",
+      "healthchain_active_node",
+      "healthchain_patients",
+      "healthchain_patients_cache",
+    ].forEach((key) => localStorage.removeItem(key));
+    localStorage.setItem("healthchain_storage_version", STORAGE_VERSION);
+  }
+}
+
 export default function App() {
+  useStorageMigration();
   const [user, setUser] = useState(() => {
     try { return JSON.parse(localStorage.getItem("healthchain_user")) || null; } catch { return null; }
   });

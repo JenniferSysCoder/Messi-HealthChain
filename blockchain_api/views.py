@@ -85,8 +85,8 @@ class BlockchainStatusView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        if not _require_role(request, ["ADMIN", "PROFESIONAL", "PACIENTE"]):
-            return Response({"success": False, "message": "No autorizado."}, status=403)
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede consultar el estado técnico de la Blockchain."}, status=403)
         return Response({"success": True, **get_blockchain_status(request.query_params.get("node"))})
 
 
@@ -109,8 +109,8 @@ class BlockchainBlocksView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        if not _require_role(request, ["ADMIN", "PROFESIONAL"]):
-            return Response({"success": False, "message": "No autorizado."}, status=403)
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede consultar los bloques de la Blockchain."}, status=403)
         return Response({"success": True, "blocks": get_blocks(request.query_params.get("node"))})
 
 
@@ -128,8 +128,8 @@ class PacientesView(APIView):
         return Response({"success": True, "pacientes": patients})
 
     def post(self, request):
-        if getattr(request.user, "rol", None) not in ["ADMIN", "PROFESIONAL"]:
-            return Response({"success": False, "message": "No autorizado."}, status=403)
+        if getattr(request.user, "rol", None) != "PROFESIONAL":
+            return Response({"success": False, "message": "Solo los profesionales pueden registrar pacientes."}, status=403)
 
         required = ["nombre", "dui", "fecha_nacimiento", "tipo_sangre", "alergias", "vacunas", "cronicas"]
         data = {key: str(request.data.get(key, "")).strip() for key in required}
@@ -166,28 +166,13 @@ class PacientesView(APIView):
         patients.append(patient)
         write("pacientes.json", patients)
 
-        # El registro de perfil queda persistido en JSON desde el primer momento.
-        # Si existe un nodo TCP activo, también se convierte en un registro Blockchain.
+        # La ficha del paciente queda persistida en JSON, pero NO genera un bloque.
+        # Los bloques se reservan para eventos clínicos creados por un profesional.
         history_record = _patient_history_record(patient)
         histories = read("historiales.json", [])
-        histories = [h for h in histories if h.get("paciente_id") != patient["id"]]
+        histories = [h for h in histories if not (h.get("paciente_id") == patient["id"] and h.get("virtual"))]
         histories.append(history_record)
         write("historiales.json", histories)
-
-        try:
-            node_service = NodeService()
-            active_node = node_service.get_active_node()
-            blockchain_record = node_service.create_record(
-                patient["id"],
-                "REGISTRO_PACIENTE",
-                history_record["datos"],
-                "Registro de paciente",
-                active_node.get_node_name(),
-            )
-            if blockchain_record and blockchain_record.get("success"):
-                history_record = {**history_record, "blockchain": True, "block": blockchain_record}
-        except Exception:
-            pass
 
         return Response({"success": True, "paciente": patient, "history_record": history_record}, status=201)
 
@@ -229,10 +214,15 @@ class RegistroClinicoView(APIView):
         if not paciente:
             return Response({"success": False, "message": "El paciente no está registrado."}, status=404)
         datos["nombre"] = paciente.get("nombre", datos.get("nombre", ""))
-        required = ["nombre", "tipo_sangre", "alergias", "vacunas", "cronicas"]
+        # La ficha del paciente aporta antecedentes; el profesional registra el evento clínico.
+        datos.setdefault("tipo_sangre", paciente.get("tipo_sangre", ""))
+        datos.setdefault("alergias", paciente.get("alergias", ""))
+        datos.setdefault("vacunas", paciente.get("vacunas", ""))
+        datos.setdefault("cronicas", paciente.get("cronicas", ""))
+        required = ["diagnostico", "tratamiento", "observaciones"]
         missing = [field for field in required if not str(datos.get(field, "")).strip()]
         if missing:
-            return Response({"success": False, "message": "Faltan campos: " + ", ".join(missing)}, status=400)
+            return Response({"success": False, "message": "Faltan campos clínicos: " + ", ".join(missing)}, status=400)
         result = create_clinical_record(
             paciente_id,
             categoria,
@@ -240,6 +230,23 @@ class RegistroClinicoView(APIView):
             getattr(user, "entidad_nombre", ""),
             request.data.get("node"),
         )
+        if result.get("success"):
+            block = result.get("block", {})
+            record_summary = {
+                "id": f"BLOCK-{block.get('id', '')}-PACIENTE-{paciente_id}",
+                "timestamp": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
+                "entidad_emisora": getattr(user, "entidad_nombre", ""),
+                "paciente_id": paciente_id,
+                "categoria": categoria,
+                "datos": datos,
+                "block_id": block.get("id"),
+                "block_hash": block.get("hash"),
+                "virtual": False,
+            }
+            histories = read("historiales.json", [])
+            histories = [h for h in histories if h.get("id") != record_summary["id"]]
+            histories.append(record_summary)
+            write("historiales.json", histories)
         return Response(result, status=201 if result.get("success") else 400)
 
 
@@ -247,8 +254,8 @@ class NodesView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        if not _require_role(request, ["ADMIN", "PROFESIONAL"]):
-            return Response({"success": False, "message": "No autorizado."}, status=403)
+        if not _require_role(request, ["ADMIN"]):
+            return Response({"success": False, "message": "Solo ADMIN puede consultar la infraestructura de nodos."}, status=403)
         return Response({"success": True, "nodes": NodeService().list_nodes()})
 
     def post(self, request):

@@ -48,3 +48,4 @@
 
 .form-section-title{grid-column:1/-1;margin-top:8px;padding-bottom:6px;border-bottom:1px solid #dceff4;color:#168fb5;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 @media (max-width:700px){.patient-form{grid-template-columns:1fr!important}.form-section-title{grid-column:1}.modal-card{width:min(94vw,620px);max-height:92vh;overflow:auto}}
+.info-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #edf1f2;font-size:11px}.info-row:last-child{border-bottom:0}.info-row span{color:#8a979b}.info-row b{color:#40545a;text-align:right}.record-card small{display:block;margin-top:10px}
