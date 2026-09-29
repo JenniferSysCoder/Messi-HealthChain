@@ -1,13 +1,12 @@
 from django.urls import path
 from .views import (
     BlockchainBlocksView, BlockchainGenesisView, BlockchainStatusView,
-    LoginView, NodesView, NodeActionView, NodeDeleteView,
-    PacienteHistorialView, PacientesView, PerfilView, RegistroClinicoView,
+    NodesView, NodeActionView, NodeDeleteView, ValidarProfesionalView,
+    PacienteHistorialView, PacientesView, RegistroClinicoView,
 )
 
 urlpatterns = [
-    path("login/", LoginView.as_view()),
-    path("perfil/", PerfilView.as_view()),
+    path("validar-profesional/", ValidarProfesionalView.as_view()),
     path("blockchain/status/", BlockchainStatusView.as_view()),
     path("blockchain/genesis/", BlockchainGenesisView.as_view()),
     path("blockchain/blocks/", BlockchainBlocksView.as_view()),
