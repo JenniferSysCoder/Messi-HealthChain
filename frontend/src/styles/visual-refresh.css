@@ -248,3 +248,36 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+/* Ajustes finales de UX */
+.modal-backdrop {
+  overflow: hidden;
+  padding: 12px;
+}
+.modal-card {
+  width: min(720px, 100%);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+}
+.modal-head { margin-bottom: 12px; }
+.modal-head h2 { font-size: 22px; }
+.modal-head p { margin-top: 3px; line-height: 1.4; }
+.patient-form { gap: 10px 14px; }
+.patient-form label { min-width: 0; }
+.patient-form input, .patient-form select { min-height: 40px; padding: 9px 11px; }
+.form-section-title {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  padding-bottom: 5px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.modal-actions { margin-top: 2px; }
+@media (max-width: 720px) {
+  .modal-backdrop { padding: 8px; }
+  .modal-card { max-height: calc(100dvh - 16px); padding: 16px; border-radius: 14px; }
+  .modal-head { gap: 10px; }
+  .modal-head h2 { font-size: 20px; }
+  .patient-form { gap: 9px; }
+}

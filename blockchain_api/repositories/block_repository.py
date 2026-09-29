@@ -65,18 +65,6 @@ class BlockRepository:
         from ..motor_blockchain.cadena_bloques import BlockChain
 
         existing = self.list_blocks()
-        if not existing and self.node_name == "NODO_1":
-            legacy = self.base_dir / "data" / "blockchain.json"
-            if legacy.exists():
-                try:
-                    with legacy.open("r", encoding="utf-8") as file:
-                        legacy_data = json.load(file)
-                    complexity = int(legacy_data.get("complexity", complexity))
-                    proof = legacy_data.get("proof_of_work", proof_char * complexity)
-                    proof_char = proof[0] if proof else proof_char
-                    existing = legacy_data.get("chain", [])
-                except (OSError, json.JSONDecodeError, ValueError):
-                    existing = []
 
         blockchain = BlockChain(complexity, proof_char)
         blockchain.block_chain = []

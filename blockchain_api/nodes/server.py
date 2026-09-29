@@ -154,8 +154,10 @@ class BlockchainServer:
             return accepted
 
     def broadcast_block(self, block):
+        # Refresca la red para que un nodo creado después del arranque también reciba bloques.
+        peers = [n for n in NodeManager().get_nodes() if n.get_node_name() != self.current_node.get_node_name()]
         results = []
-        for node in self.other_servers:
+        for node in peers:
             response = self.node_client.send_block(node, block)
             results.append({"node": node.get_node_name(), "success": bool(response and response.get("success"))})
         return results

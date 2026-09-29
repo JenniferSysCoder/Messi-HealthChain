@@ -1,5 +1,8 @@
+import os
 import sys
 import time
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 import django
 
@@ -31,6 +34,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import os
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
     main()

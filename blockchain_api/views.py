@@ -16,23 +16,6 @@ from .services.blockchain_service import (
 from .services.node_service import NodeService
 
 
-def _patient_history_record(patient):
-    return {
-        "id": f"PACIENTE-{patient.get('id')}",
-        "timestamp": patient.get("fecha_registro", ""),
-        "entidad_emisora": "Registro de paciente",
-        "paciente_id": patient.get("id", ""),
-        "categoria": "REGISTRO_PACIENTE",
-        "datos": {k: patient.get(k, "") for k in (
-            "nombre", "dui", "fecha_nacimiento", "tipo_sangre", "alergias",
-            "vacunas", "cronicas", "telefono", "direccion"
-        )},
-        "block_id": None,
-        "block_hash": None,
-        "virtual": True,
-    }
-
-
 def _professional_valid(registro, tipo):
     registro = str(registro or "").strip().upper()
     tipo = str(tipo or "").strip().upper()
@@ -114,11 +97,7 @@ class PacientesView(APIView):
         }
         patients.append(patient)
         write("pacientes.json", patients)
-        history_record = _patient_history_record(patient)
-        histories = [h for h in read("historiales.json", []) if not (h.get("paciente_id") == patient["id"] and h.get("virtual"))]
-        histories.append(history_record)
-        write("historiales.json", histories)
-        return Response({"success": True, "paciente": patient, "history_record": history_record}, status=201)
+        return Response({"success": True, "paciente": patient}, status=201)
 
 
 class PacienteHistorialView(APIView):
@@ -134,10 +113,6 @@ class PacienteHistorialView(APIView):
         patient = next((p for p in read("pacientes.json", []) if p.get("id") == paciente_id), None)
         if not patient:
             return Response({"success": False, "message": "Paciente no encontrado."}, status=404)
-        if not result:
-            result = [h for h in read("historiales.json", []) if h.get("paciente_id") == paciente_id]
-        if not result:
-            result = [_patient_history_record(patient)]
         return Response({"success": True, "paciente_id": paciente_id, "historial": result, "paciente": patient})
 
 
@@ -164,18 +139,6 @@ class RegistroClinicoView(APIView):
         if not professional:
             return Response({"success": False, "message": "Credenciales profesionales inválidas."}, status=401)
         result = create_clinical_record(paciente_id, categoria, datos, professional.get("entidad_nombre", ""), request.data.get("node"))
-        if result.get("success"):
-            block = result.get("block", {})
-            summary = {
-                "id": f"BLOCK-{block.get('id', '')}-PACIENTE-{paciente_id}",
-                "timestamp": datetime.now().isoformat(timespec="seconds"),
-                "entidad_emisora": professional.get("entidad_nombre", ""),
-                "paciente_id": paciente_id, "categoria": categoria, "datos": datos,
-                "block_id": block.get("id"), "block_hash": block.get("hash"), "virtual": False,
-            }
-            histories = [h for h in read("historiales.json", []) if h.get("id") != summary["id"]]
-            histories.append(summary)
-            write("historiales.json", histories)
         return Response(result, status=201 if result.get("success") else 400)
 
 

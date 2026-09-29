@@ -1,10 +1,74 @@
 [
-  {"id":"PROF-001","tipo":"JVPM","registro":"JVPM-12345","nombre":"Dr. Carlos Martínez","especialidad":"Medicina General","entidad_nombre":"Clínica Salud Integral","activo":true},
-  {"id":"PROF-002","tipo":"JVPM","registro":"JVPM-28471","nombre":"Dra. Ana López","especialidad":"Pediatría","entidad_nombre":"Centro Médico San Miguel","activo":true},
-  {"id":"PROF-003","tipo":"JVPP","registro":"JVPP-15432","nombre":"Lic. María Hernández","especialidad":"Psicología Clínica","entidad_nombre":"Centro de Atención Psicológica","activo":true},
-  {"id":"PROF-004","tipo":"JVPP","registro":"JVPP-28761","nombre":"Lic. Roberto García","especialidad":"Psicología","entidad_nombre":"Clínica Bienestar","activo":true},
-  {"id":"PROF-005","tipo":"JVPO","registro":"JVPO-17654","nombre":"Dr. Luis Ramírez","especialidad":"Odontología","entidad_nombre":"Clínica Dental Sonrisa","activo":true},
-  {"id":"PROF-006","tipo":"JVPO","registro":"JVPO-32981","nombre":"Dra. Patricia Torres","especialidad":"Odontología Especializada","entidad_nombre":"Centro Odontológico Integral","activo":true},
-  {"id":"PROF-007","tipo":"JVPE","registro":"JVPE-14327","nombre":"Lic. Sofía Castillo","especialidad":"Enfermería","entidad_nombre":"Unidad de Atención Integral","activo":true},
-  {"id":"PROF-008","tipo":"JVPE","registro":"JVPE-26519","nombre":"Lic. Daniel Flores","especialidad":"Enfermería","entidad_nombre":"Centro de Cuidados Health","activo":true}
+  {
+    "id": "PROF-001",
+    "tipo": "JVPM",
+    "registro": "JVPM-12345",
+    "nombre": "Dr. Carlos Martínez",
+    "especialidad": "Medicina General",
+    "entidad_nombre": "Clínica Salud Integral",
+    "activo": true
+  },
+  {
+    "id": "PROF-002",
+    "tipo": "JVPM",
+    "registro": "JVPM-28471",
+    "nombre": "Dra. Ana López",
+    "especialidad": "Pediatría",
+    "entidad_nombre": "Centro Médico San Miguel",
+    "activo": true
+  },
+  {
+    "id": "PROF-003",
+    "tipo": "JVPP",
+    "registro": "JVPP-15432",
+    "nombre": "Lic. María Hernández",
+    "especialidad": "Psicología Clínica",
+    "entidad_nombre": "Centro de Atención Psicológica",
+    "activo": true
+  },
+  {
+    "id": "PROF-004",
+    "tipo": "JVPP",
+    "registro": "JVPP-28761",
+    "nombre": "Lic. Roberto García",
+    "especialidad": "Psicología",
+    "entidad_nombre": "Clínica Bienestar",
+    "activo": true
+  },
+  {
+    "id": "PROF-005",
+    "tipo": "JVPO",
+    "registro": "JVPO-17654",
+    "nombre": "Dr. Luis Ramírez",
+    "especialidad": "Odontología",
+    "entidad_nombre": "Clínica Dental Sonrisa",
+    "activo": true
+  },
+  {
+    "id": "PROF-006",
+    "tipo": "JVPO",
+    "registro": "JVPO-32981",
+    "nombre": "Dra. Patricia Torres",
+    "especialidad": "Odontología Especializada",
+    "entidad_nombre": "Centro Odontológico Integral",
+    "activo": true
+  },
+  {
+    "id": "PROF-007",
+    "tipo": "JVPE",
+    "registro": "JVPE-14327",
+    "nombre": "Lic. Sofía Castillo",
+    "especialidad": "Enfermería",
+    "entidad_nombre": "Unidad de Atención Integral",
+    "activo": true
+  },
+  {
+    "id": "PROF-008",
+    "tipo": "JVPE",
+    "registro": "JVPE-26519",
+    "nombre": "Lic. Daniel Flores",
+    "especialidad": "Enfermería",
+    "entidad_nombre": "Centro de Cuidados Health",
+    "activo": true
+  }
 ]

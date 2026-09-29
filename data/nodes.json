@@ -3,12 +3,24 @@
     "name": "NODO_1",
     "ip": "127.0.0.1",
     "port": 5001,
-    "pid": null
+    "pid": 24296
   },
   {
     "name": "NODO_2",
     "ip": "127.0.0.1",
     "port": 5002,
-    "pid": null
+    "pid": 24288
+  },
+  {
+    "name": "EL SALVADOR",
+    "ip": "127.0.0.1",
+    "port": 12345,
+    "pid": 14452
+  },
+  {
+    "name": "UCRANIA",
+    "ip": "127.0.0.1",
+    "port": 2345,
+    "pid": 23948
   }
 ]

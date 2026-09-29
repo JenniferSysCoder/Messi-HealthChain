@@ -4,6 +4,8 @@ import signal
 import subprocess
 import sys
 from pathlib import Path
+import socket
+import time
 
 from ..motor_blockchain.datos_nodo import NodeData
 
@@ -15,6 +17,8 @@ class NodeManager:
         self.base_dir = Path(__file__).resolve().parents[2]
         self.path = self.base_dir / "data" / "nodes.json"
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.logs_dir = self.base_dir / "data" / "node_logs"
+        self.logs_dir.mkdir(parents=True, exist_ok=True)
         self._ensure_default_nodes()
 
     def _read(self):
@@ -85,13 +89,18 @@ class NodeManager:
         self._write(nodes)
 
     def is_running(self, node):
+        """Comprueba proceso y socket para evitar estados falsos."""
         pid = node.get("pid")
         if not pid:
             return False
         try:
             os.kill(int(pid), 0)
-            return True
         except (OSError, ValueError):
+            return False
+        try:
+            with socket.create_connection((node["ip"], int(node["port"])), timeout=0.35):
+                return True
+        except OSError:
             return False
 
     def start_node(self, name, complexity=4, proof_char="0"):
@@ -111,17 +120,38 @@ class NodeManager:
             str(int(complexity)),
             str(proof_char),
         ]
-        creationflags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
-        process = subprocess.Popen(
-            cmd,
-            cwd=str(self.base_dir),
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            creationflags=creationflags,
-        )
+        log_path = self.logs_dir / f"{node['name']}.log"
+        log_file = log_path.open("a", encoding="utf-8")
+        if os.name == "nt":
+            creationflags = (
+                getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+                | getattr(subprocess, "DETACHED_PROCESS", 0)
+            )
+            process = subprocess.Popen(
+                cmd, cwd=str(self.base_dir), stdout=log_file, stderr=subprocess.STDOUT,
+                creationflags=creationflags, close_fds=True,
+                env={**os.environ, "PYTHONUNBUFFERED": "1"},
+            )
+        else:
+            process = subprocess.Popen(
+                cmd, cwd=str(self.base_dir), stdout=log_file, stderr=subprocess.STDOUT,
+                start_new_session=True, close_fds=True,
+                env={**os.environ, "PYTHONUNBUFFERED": "1"},
+            )
+        log_file.close()
         node["pid"] = process.pid
         self._save_pid(name, process.pid)
-        return self.status(name)
+        # El botón "Iniciar" solo devuelve ACTIVO cuando el socket realmente escucha.
+        deadline = time.time() + 4.0
+        while time.time() < deadline:
+            if self.is_running(node):
+                return self.status(name)
+            if process.poll() is not None:
+                break
+            time.sleep(0.08)
+        self._save_pid(name, None)
+        log_hint = f" Revisa el registro {log_path.name} en data/node_logs."
+        raise RuntimeError(f"El servidor no pudo iniciar en {node['ip']}:{node['port']}.{log_hint}")
 
     def stop_node(self, name):
         node = self.get_node(name)
