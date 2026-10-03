@@ -28,5 +28,19 @@
     "alergias": "Ninguna registrada",
     "vacunas": "No registradas",
     "cronicas": "Ninguna registrada"
+  },
+  {
+    "id": "P004",
+    "nombre": "Daniel",
+    "dui": "07045596-3",
+    "fecha_nacimiento": "2005-02-17",
+    "tipo_sangre": "O+",
+    "alergias": "Pimienta",
+    "vacunas": "Covid+19",
+    "cronicas": "Ninguna",
+    "telefono": "74859677",
+    "direccion": "Uso",
+    "fecha_registro": "2026-10-03T16:06:42",
+    "estado": "ACTIVO"
   }
 ]
