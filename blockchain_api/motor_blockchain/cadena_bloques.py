@@ -2,6 +2,9 @@ from .bloque import Bloque
 from .sha256 import SHA256
 
 
+GENESIS_PREVIOUS_HASH = "0" * 64
+
+
 class BlockChain:
     def __init__(self, iComplexity, proofChar):
         self.block_chain = []  # Lista que almacena los bloques de la cadena de bloques
@@ -35,9 +38,7 @@ class BlockChain:
 
     def create_genesis_with_record(self, pEntidad, pPaciente):
         if self.size() < 1:
-            tmp_block = Bloque(
-                0, "0000000000000000000000000000000000000000000000000000000000000000"
-            )
+            tmp_block = Bloque(0, GENESIS_PREVIOUS_HASH)
             # Agregamos un registro clínico inicial al bloque génesis para indicar que se ha creado el historial del paciente
             tmp_block.set_registro_clinico(
                 "0000GeNeSiS", pPaciente, "INICIO", "HISTORIAL_CREADO"
@@ -50,9 +51,7 @@ class BlockChain:
     # Crea el bloque génesis sin registros clínicos
     def create_genesis(self):
         if self.size() < 1:
-            tmp_block = Bloque(
-                0, "0000000000000000000000000000000000000000000000000000000000000000"
-            )
+            tmp_block = Bloque(0, GENESIS_PREVIOUS_HASH)
             self.block_chain.append(tmp_block)
             self.mine_block()
             return True
@@ -75,17 +74,39 @@ class BlockChain:
 
     # Valida la prueba de trabajo de un bloque específico comparando su hash calculado con el hash almacenado en el bloque
     def get_proof_of_work_over_block(self, blk):
+        if (
+            blk is None
+            or not isinstance(blk.get_nonce(), int)
+            or isinstance(blk.get_nonce(), bool)
+            or blk.get_nonce() < 0
+        ):
+            return False
         cad = blk.to_string()
         nonce = blk.get_nonce()
         sHash = self.generate_hash(cad + str(nonce))
-        return sHash == blk.get_hash()
+        return sHash is not None and sHash == blk.get_hash()
 
     # Agrega un bloque a la cadena de bloques si no existe y si su prueba de trabajo es válida
     def add_proved_block(self, blk):
-        if not self.block_exist(blk) and self.get_proof_of_work_over_block(blk):
-            self.block_chain.append(blk)
-            return True
-        return False
+        if (
+            blk is None
+            or self.block_exist(blk)
+            or not self.get_proof_of_work_over_block(blk)
+            or blk.get_hash()[: self.complexity] != self.proof_of_work
+        ):
+            return False
+        if self.size() == 0:
+            if blk.get_id() != 0 or blk.get_previous_hash() != GENESIS_PREVIOUS_HASH:
+                return False
+        else:
+            last = self.get_last_block()
+            if (
+                blk.get_id() != last.get_id() + 1
+                or blk.get_previous_hash() != last.get_hash()
+            ):
+                return False
+        self.block_chain.append(blk)
+        return True
 
     # Acá se realiza la minería del bloque actual, buscando un nonce que genere un hash válido según la dificultad configurada
     def mine_block(self):
@@ -142,6 +163,9 @@ class BlockChain:
             return False, "La cadena está vacía."
 
         for i, block in enumerate(self.block_chain):
+            if block.get_id() != i:
+                return False, f"El índice del bloque {block.get_id()} no coincide con su posición."
+
             # 1. La prueba de trabajo del bloque debe ser consistente
             #    (el hash guardado debe corresponder a su contenido + nonce)
             if not self.get_proof_of_work_over_block(block):
@@ -161,7 +185,10 @@ class BlockChain:
                 )
 
             # 3. El encadenamiento con el bloque anterior debe ser correcto
-            if i > 0:
+            if i == 0:
+                if block.get_previous_hash() != GENESIS_PREVIOUS_HASH:
+                    return False, "El bloque génesis tiene un previous_hash inválido."
+            else:
                 bloque_anterior = self.block_chain[i - 1]
                 if block.get_previous_hash() != bloque_anterior.get_hash():
                     return False, (

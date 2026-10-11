@@ -1,4 +1,6 @@
 from datetime import datetime
+import re
+import threading
 
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -31,6 +33,10 @@ def _professional_valid(registro, tipo):
 
 def _credential_from(request):
     return str(request.data.get("registro", "")).strip(), str(request.data.get("tipo", "")).strip()
+
+
+_patients_lock = threading.Lock()
+_blockchain_write_lock = threading.Lock()
 
 
 class ValidarProfesionalView(APIView):
@@ -72,7 +78,7 @@ class PacientesView(APIView):
         data = {key: str(request.data.get(key, "")).strip() for key in required}
         if any(not value for value in data.values()):
             return Response({"success": False, "message": "Complete todos los campos clínicos obligatorios."}, status=400)
-        if not __import__("re").fullmatch(r"\d{8}-\d", data["dui"]):
+        if not re.fullmatch(r"\d{8}-\d", data["dui"]):
             return Response({"success": False, "message": "El DUI debe tener el formato 00000000-0."}, status=400)
         try:
             birth = datetime.strptime(data["fecha_nacimiento"], "%Y-%m-%d").date()
@@ -83,20 +89,35 @@ class PacientesView(APIView):
         if data["tipo_sangre"] not in {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"}:
             return Response({"success": False, "message": "Tipo de sangre no válido."}, status=400)
 
-        patients = read("pacientes.json", [])
-        if any(p.get("dui") == data["dui"] for p in patients):
-            return Response({"success": False, "message": "Ya existe un paciente con ese DUI."}, status=409)
-        ids = [int(str(p.get("id", ""))[1:]) for p in patients if str(p.get("id", ""))[1:].isdigit()]
-        patient = {
-            "id": f"P{max(ids, default=0) + 1:03d}",
-            **data,
-            "telefono": str(request.data.get("telefono", "")).strip(),
-            "direccion": str(request.data.get("direccion", "")).strip(),
-            "fecha_registro": datetime.now().isoformat(timespec="seconds"),
-            "estado": "ACTIVO",
-        }
-        patients.append(patient)
-        write("pacientes.json", patients)
+        with _patients_lock:
+            patients = read("pacientes.json", [])
+            normalized_dui = data["dui"].replace("-", "")
+            if any(
+                str(p.get("dui", "")).replace("-", "") == normalized_dui
+                for p in patients
+            ):
+                return Response({"success": False, "message": "Ya existe un paciente con ese DUI."}, status=409)
+            ids = [
+                int(str(p.get("id", ""))[1:])
+                for p in patients
+                if str(p.get("id", ""))[1:].isdigit()
+            ]
+            patient = {
+                "id": f"P{max(ids, default=0) + 1:03d}",
+                **data,
+                "telefono": str(request.data.get("telefono", "")).strip(),
+                "direccion": str(request.data.get("direccion", "")).strip(),
+                "fecha_registro": datetime.now().isoformat(timespec="seconds"),
+                "estado": "ACTIVO",
+            }
+            patients.append(patient)
+            try:
+                write("pacientes.json", patients)
+            except OSError as error:
+                return Response(
+                    {"success": False, "message": f"No se pudo guardar el paciente: {error}"},
+                    status=500,
+                )
         return Response({"success": True, "paciente": patient}, status=201)
 
 
@@ -109,10 +130,13 @@ class PacienteHistorialView(APIView):
         tipo = request.query_params.get("tipo")
         if not _professional_valid(registro, tipo):
             return Response({"success": False, "message": "Debe validar las credenciales profesionales para consultar el historial."}, status=401)
-        result = get_patient_history(paciente_id, request.query_params.get("node"))
         patient = next((p for p in read("pacientes.json", []) if p.get("id") == paciente_id), None)
         if not patient:
             return Response({"success": False, "message": "Paciente no encontrado."}, status=404)
+        try:
+            result = get_patient_history(paciente_id, request.query_params.get("node"))
+        except (RuntimeError, ValueError) as error:
+            return Response({"success": False, "message": str(error)}, status=503)
         return Response({"success": True, "paciente_id": paciente_id, "historial": result, "paciente": patient})
 
 
@@ -138,7 +162,17 @@ class RegistroClinicoView(APIView):
         professional = _professional_valid(request.data.get("registro"), request.data.get("tipo"))
         if not professional:
             return Response({"success": False, "message": "Credenciales profesionales inválidas."}, status=401)
-        result = create_clinical_record(paciente_id, categoria, datos, professional.get("entidad_nombre", ""), request.data.get("node"))
+        try:
+            with _blockchain_write_lock:
+                result = create_clinical_record(
+                    paciente_id,
+                    categoria,
+                    datos,
+                    professional.get("entidad_nombre", ""),
+                    request.data.get("node"),
+                )
+        except (RuntimeError, ValueError) as error:
+            return Response({"success": False, "message": str(error)}, status=503)
         return Response(result, status=201 if result.get("success") else 400)
 
 
@@ -146,14 +180,18 @@ class BlockchainStatusView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
     def get(self, request):
-        return Response({"success": True, **get_blockchain_status(request.query_params.get("node"))})
+        try:
+            return Response({"success": True, **get_blockchain_status(request.query_params.get("node"))})
+        except (RuntimeError, ValueError) as error:
+            return Response({"success": False, "message": str(error)}, status=503)
 
 
 class BlockchainGenesisView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
     def post(self, request):
-        result = create_genesis(request.data.get("complexity", 4), request.data.get("proof_char", "0"), request.data.get("node"))
+        with _blockchain_write_lock:
+            result = create_genesis(request.data.get("complexity", 4), request.data.get("proof_char", "0"), request.data.get("node"))
         return Response(result, status=201 if result.get("success") and result.get("created", True) else (200 if result.get("success") else 400))
 
 
@@ -161,7 +199,10 @@ class BlockchainBlocksView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
     def get(self, request):
-        return Response({"success": True, "blocks": get_blocks(request.query_params.get("node"))})
+        try:
+            return Response({"success": True, **get_blocks(request.query_params.get("node"))})
+        except (RuntimeError, ValueError) as error:
+            return Response({"success": False, "message": str(error)}, status=503)
 
 
 class NodesView(APIView):

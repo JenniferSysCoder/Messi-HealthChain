@@ -83,4 +83,4 @@ class NodeClient:
         return self.request(node, {"type": "BLOCK", "block": block.to_dict()})
 
     def sync(self, node):
-        return self.request(node, {"type": "GET_BLOCKS"})
+        return self.request(node, {"type": "SYNC_CHAIN"})

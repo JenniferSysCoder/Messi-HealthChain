@@ -42,5 +42,19 @@
     "direccion": "Uso",
     "fecha_registro": "2026-10-03T16:06:42",
     "estado": "ACTIVO"
+  },
+  {
+    "id": "P005",
+    "nombre": "Lionel Andrés Messi Cuccitini",
+    "dui": "82387743-0",
+    "fecha_nacimiento": "2026-10-01",
+    "tipo_sangre": "A+",
+    "alergias": "nada",
+    "vacunas": "nada",
+    "cronicas": "nada",
+    "telefono": "223423423",
+    "direccion": "dfgdg",
+    "fecha_registro": "2026-10-11T13:51:05",
+    "estado": "ACTIVO"
   }
 ]

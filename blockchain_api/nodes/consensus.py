@@ -1,3 +1,6 @@
+from ..motor_blockchain.cadena_bloques import GENESIS_PREVIOUS_HASH
+
+
 class ConsensusManager:
     def __init__(self, blockchain):
         self.blockchain = blockchain
@@ -5,10 +8,17 @@ class ConsensusManager:
     def validate_block(self, block):
         if block is None or self.blockchain.block_exist(block):
             return False
-        if not self.blockchain.get_proof_of_work_over_block(block):
+        if (
+            not self.blockchain.get_proof_of_work_over_block(block)
+            or block.get_hash()[: self.blockchain.complexity]
+            != self.blockchain.proof_of_work
+        ):
             return False
         if self.blockchain.size() == 0:
-            return block.get_id() == 0
+            return (
+                block.get_id() == 0
+                and block.get_previous_hash() == GENESIS_PREVIOUS_HASH
+            )
         last = self.blockchain.get_last_block()
         return (
             block.get_id() == last.get_id() + 1
