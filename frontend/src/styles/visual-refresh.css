@@ -33,9 +33,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .nav-label { color: #96a4a4; }
 .nav-link { min-height: 44px; border-radius: 10px; color: #647476; }
 .nav-link span { color: #7c9291; }
+.nav-link .nav-icon { width: 20px; height: 20px; flex: 0 0 20px; stroke-width: 1.8; color: #7c9291; }
 .nav-link:hover { background: #f2f9fc; color: var(--accent-dark); }
 .nav-link.active { background: var(--accent-soft); color: var(--accent-dark); box-shadow: inset 3px 0 var(--accent); }
-.nav-link.active span { color: var(--accent-dark); }
+.nav-link.active .nav-icon { color: var(--accent-dark); }
 .logout { border-color: #e7eded; }
 
 .main-area { min-width: 0; width: calc(100% - 252px); margin-left: 252px; padding-bottom: 42px; }
@@ -74,12 +75,22 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .stat { min-width: 0; }
 .stat-heading { display: flex; align-items: center; gap: 8px; color: #758487; font-size: 12px; min-width: 0; }
 .stat-heading > span:last-child { min-width: 0; }
-.stat-icon { width: 28px; height: 28px; display: grid; place-items: center; flex: 0 0 28px; border-radius: 8px; background: var(--accent-soft); color: var(--accent-dark); font-size: 14px; font-weight: 800; }
+.stat-icon { width: 34px; height: 34px; display: grid; place-items: center; flex: 0 0 34px; border-radius: 10px; background: var(--accent-soft); color: var(--accent-dark); }
+.stat-icon .ui-icon { width: 18px; height: 18px; stroke-width: 1.9; }
 .stat > b { display: block; margin-top: 10px; }
 .stat > small { display: block; margin-top: 6px; color: var(--muted); font-size: 11px; line-height: 1.4; }
 .stat b { overflow-wrap: anywhere; color: #2e4143; }
 .quick { border-radius: 13px; box-shadow: none; }
 .quick:hover { border-color: #b9deed; background: #fcfeff; }
+.quick-icon { width: 48px; height: 48px; flex: 0 0 48px; border-radius: 14px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-dark); }
+.quick-icon .ui-icon { width: 23px; height: 23px; stroke-width: 1.8; }
+.ui-icon { display: block; }
+.button-with-icon { display: inline-flex; align-items: center; justify-content: center; gap: 9px; }
+.button-with-icon > .ui-icon { width: 18px; height: 18px; flex: 0 0 18px; stroke-width: 1.9; }
+.menu-button .ui-icon { width: 21px; height: 21px; stroke-width: 1.8; }
+.icon-button { display: grid; place-items: center; }
+.icon-button .ui-icon { width: 19px; height: 19px; stroke-width: 1.8; }
+.node-icon .ui-icon { width: 22px; height: 22px; stroke-width: 1.8; }
 .quick i, .patient-avatar, .node-icon { background: var(--accent-soft); color: var(--accent-dark); }
 .section-head h2 { letter-spacing: 0; }
 
