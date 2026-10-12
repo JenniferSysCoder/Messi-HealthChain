@@ -1,0 +1,1395 @@
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20518).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20519).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20523).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20527).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20532).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20531).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20539).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20542).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20553).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20557).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20563).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20569).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20578).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20577).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20591).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20592).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20602).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20601).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 15015).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 42996).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 43012).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 9593).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 9599).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 9611).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 9623).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48360).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48359).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48379).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48378).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48394).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48395).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14781).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14860).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14916).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14955).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14963).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14990).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 15011).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 15044).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 15043).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 14560).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20027).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20028).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 20037).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 18267).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 18266).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 18294).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 18295).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 6903).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 7036).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 7367).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 7366).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 7465).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 7785).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 7786).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57198).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57230).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57231).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57249).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57753).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57754).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 57781).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 46970).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 46971).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 53890).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 53911).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 8170).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 8180).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 8223).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49111).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49122).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49142).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49162).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49219).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49220).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49250).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49251).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49296).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49297).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49326).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49327).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49357).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49358).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 62429).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 62542).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 39695).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28249).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28269).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28330).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28329).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28368).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28367).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28395).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 28396).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 50170).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29274).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29294).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29327).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29326).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 9528).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 9548).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 34695).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 34721).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 34742).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 34743).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 4443).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 4466).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 27000).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 27001).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 27033).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 27032).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29434).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29454).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29486).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 29487).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49873).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49893).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49923).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 49922).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 11686).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 11706).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 11740).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 11739).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 34970).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 34997).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 51452).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 51472).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 51492).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 51493).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 32769).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 32789).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 32809).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 32810).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 50812).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 50833).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 39151).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 39152).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23452).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23472).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23473).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 48442).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 1451).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 1474).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 1507).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 1508).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 47564).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 54100).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 54135).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 54136).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23845).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23865).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23898).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23899).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23970).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.
+Error atendiendo solicitud TCP desde ('127.0.0.1', 23971).
+Traceback (most recent call last):
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 129, in _handle_connection
+    message = self._receive_message(connection)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 154, in _receive_message
+    header = self._recv_exact(connection, 4)
+  File "C:\Users\Jennifer Tatiana GF\HealthChain\blockchain_api\nodes\server.py", line 195, in _recv_exact
+    raise ConnectionError("Conexión cerrada antes de completar el mensaje.")
+ConnectionError: Conexión cerrada antes de completar el mensaje.

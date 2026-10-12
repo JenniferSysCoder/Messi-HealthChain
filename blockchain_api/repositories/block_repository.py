@@ -101,14 +101,18 @@ class BlockRepository:
             if not blockchain.add_proved_block(restored):
                 raise ValueError("La cadena recibida contiene un bloque inválido.")
         if not blockchain.is_chain_valid()[0]:
-            raise ValueError("La cadena recibida no supera la validación de integridad.")
+            raise ValueError(
+                "La cadena recibida no supera la validación de integridad."
+            )
         for restored in blockchain.get_block_chain():
             self.save_block(restored)
         return blockchain
 
     @staticmethod
     def _block_from_dict(data):
-        if not isinstance(data, dict) or not isinstance(data.get("a_registros", []), list):
+        if not isinstance(data, dict) or not isinstance(
+            data.get("a_registros", []), list
+        ):
             raise ValueError("Bloque inválido.")
         block_id = data.get("id", -1)
         timestamp = data.get("time_stamp")

@@ -1,11 +1,11 @@
 import json
 import os
 import signal
+import socket
 import subprocess
 import sys
-from pathlib import Path
-import socket
 import time
+from pathlib import Path
 
 from ..motor_blockchain.datos_nodo import NodeData
 
@@ -58,9 +58,18 @@ class NodeManager:
         nodes = self._read()
         existing = self.get_node(node_data.get_node_name())
         if existing:
-            existing.update({"ip": node_data.get_ip_address(), "port": node_data.get_socket_num()})
+            existing.update(
+                {"ip": node_data.get_ip_address(), "port": node_data.get_socket_num()}
+            )
         else:
-            nodes.append({"name": node_data.get_node_name(), "ip": node_data.get_ip_address(), "port": node_data.get_socket_num(), "pid": None})
+            nodes.append(
+                {
+                    "name": node_data.get_node_name(),
+                    "ip": node_data.get_ip_address(),
+                    "port": node_data.get_socket_num(),
+                    "pid": None,
+                }
+            )
         self._write(nodes)
         return node_data
 
@@ -98,7 +107,9 @@ class NodeManager:
         except (OSError, ValueError):
             return False
         try:
-            with socket.create_connection((node["ip"], int(node["port"])), timeout=0.35):
+            with socket.create_connection(
+                (node["ip"], int(node["port"])), timeout=0.35
+            ):
                 return True
         except OSError:
             return False
@@ -123,19 +134,26 @@ class NodeManager:
         log_path = self.logs_dir / f"{node['name']}.log"
         log_file = log_path.open("a", encoding="utf-8")
         if os.name == "nt":
-            creationflags = (
-                getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
-                | getattr(subprocess, "DETACHED_PROCESS", 0)
-            )
+            creationflags = getattr(
+                subprocess, "CREATE_NEW_PROCESS_GROUP", 0
+            ) | getattr(subprocess, "DETACHED_PROCESS", 0)
             process = subprocess.Popen(
-                cmd, cwd=str(self.base_dir), stdout=log_file, stderr=subprocess.STDOUT,
-                creationflags=creationflags, close_fds=True,
+                cmd,
+                cwd=str(self.base_dir),
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+                creationflags=creationflags,
+                close_fds=True,
                 env={**os.environ, "PYTHONUNBUFFERED": "1"},
             )
         else:
             process = subprocess.Popen(
-                cmd, cwd=str(self.base_dir), stdout=log_file, stderr=subprocess.STDOUT,
-                start_new_session=True, close_fds=True,
+                cmd,
+                cwd=str(self.base_dir),
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+                start_new_session=True,
+                close_fds=True,
                 env={**os.environ, "PYTHONUNBUFFERED": "1"},
             )
         log_file.close()
@@ -151,7 +169,9 @@ class NodeManager:
             time.sleep(0.08)
         self._save_pid(name, None)
         log_hint = f" Revisa el registro {log_path.name} en data/node_logs."
-        raise RuntimeError(f"El servidor no pudo iniciar en {node['ip']}:{node['port']}.{log_hint}")
+        raise RuntimeError(
+            f"El servidor no pudo iniciar en {node['ip']}:{node['port']}.{log_hint}"
+        )
 
     def stop_node(self, name):
         node = self.get_node(name)
@@ -180,7 +200,13 @@ class NodeManager:
             running = self.is_running(node)
             if not running and node.get("pid") is not None:
                 node["pid"] = None
-            result.append({**node, "running": running, "status": "ACTIVO" if running else "DETENIDO"})
+            result.append(
+                {
+                    **node,
+                    "running": running,
+                    "status": "ACTIVO" if running else "DETENIDO",
+                }
+            )
         self._write(records)
         if name:
             return next(item for item in result if item["name"] == name)

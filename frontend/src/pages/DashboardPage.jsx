@@ -355,7 +355,9 @@ export default function DashboardPage() {
     try {
       const r = await createPatient(patientForm, credential);
       if (!r.success || !r.paciente) {
-        throw new Error(r.message || "El servidor no confirmó el registro del paciente.");
+        throw new Error(
+          r.message || "El servidor no confirmó el registro del paciente.",
+        );
       }
       setPatients((current) => [
         ...current.filter(
@@ -1051,10 +1053,7 @@ function RecordForm({
 function PatientModal({ form, setForm, onSubmit, onClose, loading, error }) {
   const update = (k, v) => setForm((o) => ({ ...o, [k]: v }));
   return (
-    <div
-      className="modal-backdrop"
-      onMouseDown={loading ? undefined : onClose}
-    >
+    <div className="modal-backdrop" onMouseDown={loading ? undefined : onClose}>
       <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <div>
@@ -1178,9 +1177,9 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const proofValid = Boolean(
     chain?.valid &&
-      selectedBlock?.hash &&
-      chain?.proof_of_work &&
-      selectedBlock.hash.startsWith(chain.proof_of_work),
+    selectedBlock?.hash &&
+    chain?.proof_of_work &&
+    selectedBlock.hash.startsWith(chain.proof_of_work),
   );
   return (
     <section className="content">
@@ -1332,9 +1331,11 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
                       <b>Entidad emisora:</b> {record.entidad_emisora || "—"}
                     </p>
                     <p>
-                      <b>Fecha:</b> {record.time_stamp || "—"}
+                      <b>Fecha:</b> {record.time_stamp ? new Date(parseInt(record.time_stamp)).toLocaleString() : "—"}
                     </p>
-                    <p><b>Datos clínicos cifrados (no descifrados):</b></p>
+                    <p>
+                      <b>Datos clínicos cifrados (no descifrados):</b>
+                    </p>
                     <code>{record.datos_cifrados || "—"}</code>
                   </article>
                 ))

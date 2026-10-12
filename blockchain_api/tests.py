@@ -1,6 +1,6 @@
 import socket
-from threading import RLock
 import time
+from threading import RLock
 from unittest.mock import Mock, patch
 
 from django.conf import settings
@@ -49,7 +49,9 @@ class BlockchainIntegrityTests(SimpleTestCase):
         self.assertFalse(ConsensusManager(chain).validate_block(invalid_genesis))
 
     @patch("blockchain_api.nodes.server.NodeManager")
-    def test_node_sync_replaces_a_shorter_chain_with_a_valid_peer_chain(self, manager_class):
+    def test_node_sync_replaces_a_shorter_chain_with_a_valid_peer_chain(
+        self, manager_class
+    ):
         remote = self.make_chain()
         local = BlockChain(1, "0")
         self.assertTrue(
@@ -89,7 +91,9 @@ class BlockchainIntegrityTests(SimpleTestCase):
         self.assertGreaterEqual(server.node_client.sync.call_count, 2)
 
     @patch("blockchain_api.nodes.server.NodeManager")
-    def test_mined_blocks_are_broadcast_between_independent_tcp_nodes(self, manager_class):
+    def test_mined_blocks_are_broadcast_between_independent_tcp_nodes(
+        self, manager_class
+    ):
         probes = [socket.socket(), socket.socket()]
         try:
             for probe in probes:

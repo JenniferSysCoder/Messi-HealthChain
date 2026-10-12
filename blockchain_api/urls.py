@@ -1,8 +1,16 @@
 from django.urls import path
+
 from .views import (
-    BlockchainBlocksView, BlockchainGenesisView, BlockchainStatusView,
-    NodesView, NodeActionView, NodeDeleteView, ValidarProfesionalView,
-    PacienteHistorialView, PacientesView, RegistroClinicoView,
+    BlockchainBlocksView,
+    BlockchainGenesisView,
+    BlockchainStatusView,
+    NodeActionView,
+    NodeDeleteView,
+    NodesView,
+    PacienteHistorialView,
+    PacientesView,
+    RegistroClinicoView,
+    ValidarProfesionalView,
 )
 
 urlpatterns = [

@@ -40,9 +40,7 @@ async function request(endpoint, options = {}) {
   return data;
 }
 
-// ==========================================
 // VALIDACIÓN DE PROFESIONALES
-// ==========================================
 
 export async function validateProfessional(tipo, registro) {
   return request("/validar-profesional/", {
@@ -51,9 +49,7 @@ export async function validateProfessional(tipo, registro) {
   });
 }
 
-// ==========================================
 // PACIENTES
-// ==========================================
 
 export async function getPatients() {
   const response = await request("/pacientes/");
@@ -120,9 +116,7 @@ export async function createPatient(data, credential) {
   return response;
 }
 
-// ==========================================
 // HISTORIAL CLÍNICO
-// ==========================================
 
 export async function getPatientHistory(id, node, credential) {
   if (!credential?.tipo || !credential?.registro) {
@@ -143,9 +137,7 @@ export async function getPatientHistory(id, node, credential) {
   );
 }
 
-// ==========================================
 // REGISTROS CLÍNICOS
-// ==========================================
 
 export async function createClinicalRecord(data, credential) {
   if (!credential?.tipo || !credential?.registro) {
@@ -173,9 +165,7 @@ export async function createClinicalRecord(data, credential) {
   return response;
 }
 
-// ==========================================
 // BLOCKCHAIN
-// ==========================================
 
 export async function getBlockchainStatus(node) {
   const query = node
@@ -230,9 +220,7 @@ export async function createGenesis(complexity, proofChar, node) {
   return response;
 }
 
-// ==========================================
 // NODOS / SERVIDORES
-// ==========================================
 
 export async function getNodes() {
   const response = await request("/nodes/");
