@@ -1,6 +1,6 @@
 import socket
 import time
-from threading import RLock
+from threading import Event, RLock
 from unittest.mock import Mock, patch
 
 from django.conf import settings
@@ -13,9 +13,64 @@ from .motor_blockchain.cifrado import Cifrado
 from .motor_blockchain.datos_nodo import NodeData
 from .nodes.client import NodeClient
 from .nodes.consensus import ConsensusManager
+from .nodes.node_manager import NodeManager
 from .nodes.server import BlockchainServer
+from .nodes.wallet import Wallet
 from .repositories.block_repository import BlockRepository
+from .services.node_service import NodeService
 from .views import PacientesView
+
+
+class NodeClientTimeoutTests(SimpleTestCase):
+    def test_default_timeout_covers_proof_of_work_requests(self):
+        self.assertEqual(NodeClient().timeout, 60)
+
+    def test_wallet_uses_long_timeout_for_blockchain_operations(self):
+        wallet = Wallet(NodeData("MEXICO", "127.0.0.1", 5001))
+        self.assertEqual(wallet.client.timeout, 60)
+
+
+class NodeManagerPortTests(SimpleTestCase):
+    def make_occupied_port(self):
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listener.bind(("0.0.0.0", 0))
+        listener.listen(1)
+        return listener, listener.getsockname()[1]
+
+    def test_create_node_rejects_occupied_port_before_persisting(self):
+        manager = NodeManager.__new__(NodeManager)
+        manager._read = Mock(return_value=[])
+        manager._write = Mock()
+        listener, port = self.make_occupied_port()
+
+        try:
+            with self.assertRaisesRegex(RuntimeError, "^El puerto está ocupado$"):
+                manager.create_node("MEXICO", "127.0.0.1", port)
+        finally:
+            listener.close()
+
+        manager._write.assert_not_called()
+
+    @patch("blockchain_api.nodes.node_manager.subprocess.Popen")
+    def test_start_node_rejects_occupied_port_before_launching(self, popen):
+        manager = NodeManager.__new__(NodeManager)
+        node = {
+            "name": "MEXICO",
+            "ip": "127.0.0.1",
+            "port": None,
+        }
+        listener, port = self.make_occupied_port()
+        node["port"] = port
+        manager.get_node = Mock(return_value=node)
+        manager.is_running = Mock(return_value=False)
+
+        try:
+            with self.assertRaisesRegex(RuntimeError, "^El puerto está ocupado$"):
+                manager.start_node("MEXICO")
+        finally:
+            listener.close()
+
+        popen.assert_not_called()
 
 
 class BlockchainIntegrityTests(SimpleTestCase):
@@ -91,6 +146,23 @@ class BlockchainIntegrityTests(SimpleTestCase):
         self.assertGreaterEqual(server.node_client.sync.call_count, 2)
 
     @patch("blockchain_api.nodes.server.NodeManager")
+    def test_isolated_node_can_create_and_persist_genesis(self, manager_class):
+        manager_class.return_value.get_nodes.return_value = []
+        server = BlockchainServer.__new__(BlockchainServer)
+        server.current_node = NodeData("MEXICO", "127.0.0.1", 5001)
+        server.complexity = 1
+        server.proof_char = "0"
+        server.repository = Mock()
+        server.blockchain = BlockChain(1, "0")
+        server.lock = RLock()
+        server.consensus = ConsensusManager(server.blockchain)
+        server.node_client = Mock()
+
+        self.assertTrue(server.create_genesis())
+        self.assertEqual(server.blockchain.size(), 1)
+        server.repository.save_block.assert_called_once()
+
+    @patch("blockchain_api.nodes.server.NodeManager")
     def test_mined_blocks_are_broadcast_between_independent_tcp_nodes(
         self, manager_class
     ):
@@ -118,6 +190,7 @@ class BlockchainIntegrityTests(SimpleTestCase):
             server.running = False
             server.node_client = NodeClient()
             server.lock = RLock()
+            server._stop_event = Event()
             server.consensus = ConsensusManager(server.blockchain)
             server.network_cipher = Cifrado(
                 getattr(settings, "HEALTHCHAIN_SOCKET_KEY", "MESSI_HEALTHCHAIN_SOCKET")
@@ -147,6 +220,37 @@ class BlockchainIntegrityTests(SimpleTestCase):
         finally:
             first.stop_server()
             second.stop_server()
+
+
+class NodeStartupTests(SimpleTestCase):
+    @patch("blockchain_api.services.node_service.NodeClient")
+    @patch("blockchain_api.services.node_service.NodeManager")
+    def test_start_succeeds_with_empty_network(self, manager_class, client_class):
+        manager = manager_class.return_value
+        manager.status.return_value = [
+            {"name": "MEXICO", "running": False},
+        ]
+        manager.get_node.return_value = {
+            "name": "MEXICO",
+            "ip": "127.0.0.1",
+            "port": 5001,
+        }
+        client = client_class.return_value
+        client.get_blocks.return_value = {
+            "success": True,
+            "blocks": [],
+            "valid": True,
+        }
+        client.get_status.return_value = {
+            "success": True,
+            "status": {"node": "MEXICO", "blocks": 0, "initialized": False},
+        }
+
+        status = NodeService().start("MEXICO")
+
+        self.assertEqual(status["node"], "MEXICO")
+        self.assertEqual(status["blocks"], 0)
+        manager.start_node.assert_called_once_with("MEXICO", 4, "0")
 
 
 class PatientRegistrationTests(SimpleTestCase):

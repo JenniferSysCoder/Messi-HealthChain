@@ -79,6 +79,7 @@ class NodeManager:
         port = int(port)
         if not name or not ip or not 1 <= port <= 65535:
             raise ValueError("Datos de nodo inválidos.")
+        self._ensure_port_available(port)
         nodes = self._read()
         if any(n["name"] == name for n in nodes):
             raise ValueError("Ya existe un nodo con ese nombre.")
@@ -114,12 +115,21 @@ class NodeManager:
         except OSError:
             return False
 
+    @staticmethod
+    def _ensure_port_available(port):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+                probe.bind(("0.0.0.0", int(port)))
+        except OSError as error:
+            raise RuntimeError("El puerto está ocupado") from error
+
     def start_node(self, name, complexity=4, proof_char="0"):
         node = self.get_node(name)
         if not node:
             raise ValueError("Nodo no encontrado.")
         if self.is_running(node):
             return self.status(name)
+        self._ensure_port_available(node["port"])
 
         cmd = [
             sys.executable,

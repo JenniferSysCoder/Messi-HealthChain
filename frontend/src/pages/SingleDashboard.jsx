@@ -26,6 +26,7 @@ const emptyPatient = {
   telefono: "",
   direccion: "",
 };
+
 const emptyRecord = {
   motivo_consulta: "",
   diagnostico: "",
@@ -33,12 +34,13 @@ const emptyRecord = {
   observaciones: "",
   signos_vitales: "",
 };
+
 const juntaOptions = ["JVPM", "JVPP", "JVPO", "JVPE"];
 
 async function credentials(title = "Validación profesional") {
   const { value } = await window.Swal.fire({
     title,
-    html: `<select id="hc-junta" class="swal2-input"><option value="JVPM">JVPM — Medicina</option><option value="JVPP">JVPP — Psicología</option><option value="JVPO">JVPO — Odontología</option><option value="JVPE">JVPE — Enfermería</option></select><input id="hc-registro" class="swal2-input" placeholder="Ej. JVPM-12345">`,
+    html: `<select id="hc-junta" class="swal2-input"><option value="JVPM">JVPM - Medicina</option><option value="JVPP">JVPP - Psicología</option><option value="JVPO">JVPO - Odontología</option><option value="JVPE">JVPE - Enfermería</option></select><input id="hc-registro" class="swal2-input" placeholder="Ej. JVPM-12345">`,
     focusConfirm: false,
     showCancelButton: true,
     confirmButtonText: "Validar",
@@ -56,7 +58,7 @@ async function credentials(title = "Validación profesional") {
         icon: "success",
         title: "Credenciales válidas",
         text: r.profesional.nombre,
-        timer: 1500,
+        timer: 600, // --- MODIFICACIÓN DE TIEMPO AQUÍ ---
         showConfirmButton: false,
       });
       return { ...value, profesional: r.profesional };
@@ -66,6 +68,7 @@ async function credentials(title = "Validación profesional") {
   }
   return null;
 }
+
 function initials(name = "Paciente") {
   return name
     .split(" ")
@@ -98,6 +101,7 @@ export default function SingleDashboard() {
       port: "5001",
     }),
     [busy, setBusy] = useState(false);
+
   const loadPatients = async () => {
     try {
       const r = await getPatients();
@@ -106,6 +110,7 @@ export default function SingleDashboard() {
       window.Swal.fire("Error", e.message, "error");
     }
   };
+
   const loadNodes = async () => {
     try {
       const r = await getNodes();
@@ -116,10 +121,12 @@ export default function SingleDashboard() {
       window.Swal.fire("Error", e.message, "error");
     }
   };
+
   useEffect(() => {
     loadPatients();
     loadNodes();
   }, []);
+
   useEffect(() => {
     if (section === "blockchain") {
       getBlockchainStatus(selectedNode)
@@ -130,6 +137,7 @@ export default function SingleDashboard() {
         .catch(() => {});
     }
   }, [section, selectedNode]);
+
   const stats = useMemo(
     () => ({
       patients: patients.length,
@@ -138,6 +146,7 @@ export default function SingleDashboard() {
     }),
     [patients, nodes, blocks],
   );
+
   async function savePatient(e) {
     e.preventDefault();
     const c = await credentials("Validar registro de paciente");
@@ -159,6 +168,7 @@ export default function SingleDashboard() {
       setBusy(false);
     }
   }
+
   async function openHistory(p) {
     const c = await credentials("Validar acceso al historial");
     if (!c) return;
@@ -171,6 +181,7 @@ export default function SingleDashboard() {
       window.Swal.fire("No se pudo consultar", e.message, "error");
     }
   }
+
   async function saveRecord(e) {
     e.preventDefault();
     if (!selected) {
@@ -206,6 +217,7 @@ export default function SingleDashboard() {
       setBusy(false);
     }
   }
+
   async function addNode(e) {
     e.preventDefault();
     try {
@@ -214,9 +226,18 @@ export default function SingleDashboard() {
       loadNodes();
       window.Swal.fire("Nodo creado", "El nodo quedó registrado.", "success");
     } catch (e) {
-      window.Swal.fire("Error", e.message, "error");
+      if (e.message === "El puerto está ocupado") {
+        window.Swal.fire({
+          icon: "error",
+          title: "Error de puerto",
+          text: "El puerto está ocupado",
+        });
+      } else {
+        window.Swal.fire("Error", e.message, "error");
+      }
     }
   }
+
   async function genesis() {
     try {
       const r = await createGenesis(4, "0", selectedNode);
@@ -230,6 +251,7 @@ export default function SingleDashboard() {
       window.Swal.fire("Error", e.message, "error");
     }
   }
+
   const nav = [
     "inicio",
     "pacientes",
@@ -238,6 +260,7 @@ export default function SingleDashboard() {
     "blockchain",
     "red",
   ];
+
   return (
     <div className="app">
       <aside>
@@ -264,12 +287,12 @@ export default function SingleDashboard() {
             >
               {
                 {
-                  inicio: "⌂",
-                  pacientes: "♙",
-                  historial: "◷",
-                  registro: "＋",
-                  blockchain: "◈",
-                  red: "⌁",
+                  inicio: "🏠",
+                  pacientes: "👥",
+                  historial: "📄",
+                  registro: "➕",
+                  blockchain: "⛓️",
+                  red: "🌐",
                 }[x]
               }{" "}
               {
@@ -291,6 +314,7 @@ export default function SingleDashboard() {
           <b>Sin login ni roles</b>
         </div>
       </aside>
+
       <main>
         <header>
           <div>
@@ -308,8 +332,9 @@ export default function SingleDashboard() {
               }
             </h1>
           </div>
-          <div className="top-status">● Sistema activo</div>
+          <div className="top-status">🟢 Sistema activo</div>
         </header>
+
         <section className="content">
           {section === "inicio" && (
             <>
@@ -322,7 +347,7 @@ export default function SingleDashboard() {
                     desde una única interfaz.
                   </p>
                 </div>
-                <div className="hero-icon">◈</div>
+                <div className="hero-icon">🏥</div>
               </div>
               <div className="stats">
                 <div>
@@ -347,13 +372,13 @@ export default function SingleDashboard() {
                   <h3>Acciones rápidas</h3>
                   <div className="quick">
                     <button onClick={() => setSection("pacientes")}>
-                      ♙ Gestionar pacientes
+                      👥 Gestionar pacientes
                     </button>
                     <button onClick={() => setSection("registro")}>
-                      ＋ Nueva atención
+                      ➕ Nueva atención
                     </button>
                     <button onClick={() => setSection("blockchain")}>
-                      ◈ Ver Blockchain
+                      ⛓️ Ver Blockchain
                     </button>
                   </div>
                 </div>
@@ -368,6 +393,7 @@ export default function SingleDashboard() {
               </div>
             </>
           )}
+
           {section === "pacientes" && (
             <>
               <div className="section-head">
@@ -381,7 +407,7 @@ export default function SingleDashboard() {
                   className="primary"
                   onClick={() => setSection("registro-paciente")}
                 >
-                  ＋ Registrar paciente
+                  ➕ Registrar paciente
                 </button>
               </div>
               <div className="patient-grid">
@@ -391,10 +417,10 @@ export default function SingleDashboard() {
                     <div className="patient-info">
                       <h3>{p.nombre}</h3>
                       <span>
-                        {p.id} · {p.dui}
+                        {p.id} — {p.dui}
                       </span>
                       <p>
-                        {p.tipo_sangre} · {p.telefono || "Sin teléfono"}
+                        {p.tipo_sangre} • {p.telefono || "Sin teléfono"}
                       </p>
                     </div>
                     <button className="outline" onClick={() => openHistory(p)}>
@@ -408,6 +434,7 @@ export default function SingleDashboard() {
               )}
             </>
           )}
+
           {section === "registro-paciente" && (
             <>
               <div className="section-head">
@@ -442,11 +469,12 @@ export default function SingleDashboard() {
                   </label>
                 ))}
                 <button className="primary full" disabled={busy}>
-                  {busy ? "Guardando…" : "Registrar paciente"}
+                  {busy ? "Guardando..." : "Registrar paciente"}
                 </button>
               </form>
             </>
           )}
+
           {section === "historial" && (
             <>
               <div className="section-head">
@@ -469,7 +497,7 @@ export default function SingleDashboard() {
                     <div className="patient-info">
                       <h3>{p.nombre}</h3>
                       <span>
-                        {p.id} · {p.dui}
+                        {p.id} — {p.dui}
                       </span>
                       <p>Consultar historial</p>
                     </div>
@@ -485,7 +513,7 @@ export default function SingleDashboard() {
                     <div>
                       <h2>{selected.nombre}</h2>
                       <p>
-                        {selected.id} · {selected.tipo_sangre}
+                        {selected.id} • {selected.tipo_sangre}
                       </p>
                     </div>
                   </div>
@@ -500,10 +528,10 @@ export default function SingleDashboard() {
                         {h.datos?.motivo_consulta || "Registro de paciente"}
                       </p>
                       <p>
-                        <b>Diagnóstico:</b> {h.datos?.diagnostico || "—"}
+                        <b>Diagnóstico:</b> {h.datos?.diagnostico || "--"}
                       </p>
                       <p>
-                        <b>Tratamiento:</b> {h.datos?.tratamiento || "—"}
+                        <b>Tratamiento:</b> {h.datos?.tratamiento || "--"}
                       </p>
                       <p>{h.datos?.observaciones || ""}</p>
                       <code>{h.block_hash || "Registro de ficha"}</code>
@@ -513,6 +541,7 @@ export default function SingleDashboard() {
               )}
             </>
           )}
+
           {section === "registro" && (
             <>
               <div className="section-head">
@@ -564,13 +593,14 @@ export default function SingleDashboard() {
                   ))}
                   <button className="primary full" disabled={busy}>
                     {busy
-                      ? "Procesando Blockchain…"
+                      ? "Procesando Blockchain..."
                       : "Guardar y minar registro"}
                   </button>
                 </form>
               </div>
             </>
           )}
+
           {section === "blockchain" && (
             <>
               <div className="grid2">
@@ -605,12 +635,13 @@ export default function SingleDashboard() {
                 {blocks.map((b, i) => (
                   <div className="block" key={i}>
                     <b>#{b.id}</b>
-                    <span>{b.hash || b.previous_hash || "—"}</span>
+                    <span>{b.hash || b.previous_hash || "--"}</span>
                   </div>
                 ))}
               </div>
             </>
           )}
+
           {section === "red" && (
             <>
               <div className="grid2">
@@ -635,7 +666,7 @@ export default function SingleDashboard() {
                     />
                   </label>
                   <label>
-                    Puerto
+                    Puerto (recomendado del 7000 - 8000)
                     <input
                       type="number"
                       value={node.port}
@@ -647,6 +678,7 @@ export default function SingleDashboard() {
                   </label>
                   <button className="primary">Crear nodo</button>
                 </form>
+
                 <div className="card">
                   <h3>Nodos</h3>
                   {nodes.map((n) => (
@@ -654,7 +686,7 @@ export default function SingleDashboard() {
                       <div>
                         <b>{n.name}</b>
                         <small>
-                          {n.ip}:{n.port} · {n.running ? "ACTIVO" : "DETENIDO"}
+                          {n.ip}:{n.port} — {n.running ? "ACTIVO" : "DETENIDO"}
                         </small>
                       </div>
                       <div className="actions">

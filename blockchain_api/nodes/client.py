@@ -10,7 +10,7 @@ from ..motor_blockchain.cifrado import Cifrado
 class NodeClient:
     """Wallet/cliente TCP de HealthChain con mensajes cifrados y framing."""
 
-    def __init__(self, timeout=8):
+    def __init__(self, timeout=60):
         self.timeout = timeout
         self.cipher = Cifrado(getattr(settings, "HEALTHCHAIN_SOCKET_KEY", "MESSI_HEALTHCHAIN_SOCKET"))
 

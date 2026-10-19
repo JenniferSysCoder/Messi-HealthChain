@@ -44,6 +44,7 @@ const emptyPatient = {
   telefono: "",
   direccion: "",
 };
+
 const emptyRecord = {
   category: "CONSULTA",
   motivo_consulta: "",
@@ -52,6 +53,7 @@ const emptyRecord = {
   observaciones: "",
   signos_vitales: "",
 };
+
 const nav = [
   { id: "inicio", label: "Inicio", icon: House },
   { id: "pacientes", label: "Pacientes", icon: UsersRound },
@@ -73,16 +75,20 @@ export default function DashboardPage() {
   const [history, setHistory] = useState([]);
   const [blocks, setBlocks] = useState([]);
   const [chain, setChain] = useState(null);
+
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+
   const [showPatientForm, setShowPatientForm] = useState(false);
   const [patientCredential, setPatientCredential] = useState(null);
   const [sectionCredentials, setSectionCredentials] = useState({});
+
   const [patientForm, setPatientForm] = useState(emptyPatient);
   const [record, setRecord] = useState(emptyRecord);
   const chainRequest = useRef(0);
+
   const [nodeForm, setNodeForm] = useState({
     name: "",
     ip: "127.0.0.1",
@@ -96,6 +102,7 @@ export default function DashboardPage() {
     loadPatients();
     loadNodes();
   }, []);
+
   useEffect(() => {
     if (section === "blockchain") loadChain();
     if (section === "red") loadNodes();
@@ -110,6 +117,7 @@ export default function DashboardPage() {
       setPatients([]);
     }
   }
+
   async function loadNodes() {
     try {
       const r = await getNodes();
@@ -137,6 +145,7 @@ export default function DashboardPage() {
       setError(e.message);
     }
   }
+
   async function loadChain(node = selectedNode) {
     const requestId = ++chainRequest.current;
     if (!node) {
@@ -222,7 +231,6 @@ export default function DashboardPage() {
     setMessage("");
     setError("");
     setMobileMenu(false);
-
     if (id === "paciente-nuevo") {
       await openPatientRegistration();
       return;
@@ -238,7 +246,6 @@ export default function DashboardPage() {
       );
       if (!credential) return;
     }
-
     if (section !== id && (section === "historial" || section === "registro")) {
       setSectionCredentials((previous) => {
         const next = { ...previous };
@@ -255,11 +262,10 @@ export default function DashboardPage() {
     sectionKey = section,
   ) {
     if (sectionCredentials[sectionKey]) return sectionCredentials[sectionKey];
-
     const result = await Swal.fire({
       title,
       html: `<p style="margin:0 0 14px;color:#718087;font-size:13px">Ingresa tu registro profesional para continuar.</p>
-        <select id="hc-tipo" class="swal2-select" style="width:100%;margin:8px 0"><option value="JVPM">JVPM — Medicina</option><option value="JVPP">JVPP — Psicología</option><option value="JVPO">JVPO — Odontología</option><option value="JVPE">JVPE — Enfermería</option></select>
+        <select id="hc-tipo" class="swal2-select" style="width:100%;margin:8px 0"><option value="JVPM">JVPM - Medicina</option><option value="JVPP">JVPP - Psicología</option><option value="JVPO">JVPO - Odontología</option><option value="JVPE">JVPE - Enfermería</option></select>
         <input id="hc-registro" class="swal2-input" style="width:100%;margin:8px 0" placeholder="Ej. JVPM-12345">`,
       confirmButtonText: "Validar acceso",
       cancelButtonText: "Cancelar",
@@ -285,9 +291,7 @@ export default function DashboardPage() {
         }
       },
     });
-
     if (!result.isConfirmed) return null;
-
     const credential = result.value;
     setSectionCredentials((previous) => ({
       ...previous,
@@ -297,7 +301,7 @@ export default function DashboardPage() {
       icon: "success",
       title: "Acceso autorizado",
       text: `Credencial ${credential.tipo} validada correctamente.`,
-      timer: 1200,
+      timer: 600, // --- MODIFICACIÓN DE TIEMPO AQUÍ ---
       showConfirmButton: false,
     });
     return credential;
@@ -311,7 +315,6 @@ export default function DashboardPage() {
         "historial",
       ));
     if (!credential) return;
-
     if (section === "registro") {
       setSectionCredentials((previous) => {
         const next = { ...previous };
@@ -398,13 +401,11 @@ export default function DashboardPage() {
       setError("Selecciona un paciente.");
       return;
     }
-
     const credential = await askProfessionalCredentials(
       "Validación para registrar atención",
       "registro",
     );
     if (!credential) return;
-
     setLoading(true);
     setError("");
     try {
@@ -423,12 +424,10 @@ export default function DashboardPage() {
         },
         credential,
       );
-
       if (!response.success)
         throw new Error(
           response.message || "No se pudo registrar la atención.",
         );
-
       setRecord(emptyRecord);
       await Swal.fire({
         icon: "success",
@@ -436,7 +435,6 @@ export default function DashboardPage() {
         text: "El registro fue minado y agregado a la Blockchain.",
         confirmButtonText: "Continuar",
       });
-
       // El historial es otra opción protegida y conserva su propia validación.
       setSectionCredentials((previous) => {
         const next = { ...previous };
@@ -465,11 +463,20 @@ export default function DashboardPage() {
       setMessage(ok);
       await loadNodes();
     } catch (e) {
-      setError(e.message);
+      if (e.message === "El puerto está ocupado") {
+        await Swal.fire({
+          icon: "error",
+          title: "Error de puerto",
+          text: "El puerto está ocupado",
+        });
+      } else {
+        setError(e.message);
+      }
     } finally {
       setLoading(false);
     }
   }
+
   async function createServer(e) {
     e.preventDefault();
     await run(async () => {
@@ -477,6 +484,7 @@ export default function DashboardPage() {
       setNodeForm({ name: "", ip: "127.0.0.1", port: "" });
     }, "Servidor configurado correctamente.");
   }
+
   async function startNetwork() {
     const stopped = nodes.filter((node) => !node.running);
     if (nodes.length < 2) {
@@ -491,6 +499,7 @@ export default function DashboardPage() {
       for (const node of stopped) await startNode(node.name);
     }, "Red de nodos iniciada correctamente.");
   }
+
   async function confirmDeleteServer(name) {
     const result = await Swal.fire({
       title: "¿Eliminar servidor?",
@@ -504,6 +513,7 @@ export default function DashboardPage() {
     if (result.isConfirmed)
       await run(() => deleteNode(name), "Servidor eliminado.");
   }
+
   async function confirmStopServer(name) {
     const result = await Swal.fire({
       title: "¿Detener servidor?",
@@ -517,6 +527,7 @@ export default function DashboardPage() {
     if (result.isConfirmed)
       await run(() => stopNode(name), "Servidor detenido.");
   }
+
   async function confirmGenesis() {
     const result = await Swal.fire({
       title: "¿Crear bloque Genesis?",
@@ -529,6 +540,7 @@ export default function DashboardPage() {
     });
     if (result.isConfirmed) await genesis();
   }
+
   async function genesis() {
     const node = selectedNode || activeNodes[0]?.name;
     if (!node) {
@@ -573,6 +585,7 @@ export default function DashboardPage() {
             <span>Acceso integral del sistema</span>
           </div>
         </div>
+
         <div className="nav-label">MENÚ</div>
         <nav id="healthchain-navigation" aria-label="Navegación principal">
           {nav.map(({ id, icon: Icon, label }) => (
@@ -592,9 +605,10 @@ export default function DashboardPage() {
           ))}
         </nav>
         <div className="logout" style={{ cursor: "default" }}>
-          ● Sistema activo
+            Sistema activo
         </div>
       </aside>
+
       <main className="main-area">
         <header className="topbar">
           <div className="top-title">
@@ -643,8 +657,10 @@ export default function DashboardPage() {
             )}
           </div>
         </header>
+
         {message && <div className="alert success">{message}</div>}
         {error && <div className="alert danger">{error}</div>}
+
         {section === "inicio" && (
           <Home
             patients={patients}
@@ -702,6 +718,7 @@ export default function DashboardPage() {
             onDelete={confirmDeleteServer}
           />
         )}
+
         {showPatientForm && (
           <PatientModal
             form={patientForm}
@@ -738,6 +755,7 @@ function Home({ patients, active, blocks, chain, setSection }) {
           </p>
         </div>
       </div>
+
       <div className="stats">
         <Stat
           icon={<UsersRound className="ui-icon" />}
@@ -764,10 +782,11 @@ function Home({ patients, active, blocks, chain, setSection }) {
         <Stat
           icon={<Hash className="ui-icon" />}
           label="Bloques"
-          value={blocks ?? "—"}
+          value={blocks ?? "--"}
           description="En el nodo seleccionado"
         />
       </div>
+
       <h3>Acciones rápidas</h3>
       <div className="quick-grid">
         <button className="quick" onClick={() => setSection("pacientes")}>
@@ -779,6 +798,7 @@ function Home({ patients, active, blocks, chain, setSection }) {
             <p>Registrar y consultar fichas.</p>
           </div>
         </button>
+
         <button className="quick" onClick={() => setSection("registro")}>
           <span className="quick-icon">
             <FilePlus2 className="ui-icon" />
@@ -788,6 +808,7 @@ function Home({ patients, active, blocks, chain, setSection }) {
             <p>Crear un registro clínico.</p>
           </div>
         </button>
+
         <button className="quick" onClick={() => setSection("blockchain")}>
           <span className="quick-icon">
             <Blocks className="ui-icon" />
@@ -801,6 +822,7 @@ function Home({ patients, active, blocks, chain, setSection }) {
     </section>
   );
 }
+
 function Stat({ label, value, icon, description }) {
   return (
     <div className="stat">
@@ -817,6 +839,7 @@ function Stat({ label, value, icon, description }) {
     </div>
   );
 }
+
 function Patients({ patients, onNew, onSelect }) {
   return (
     <section className="content">
@@ -865,6 +888,7 @@ function Patients({ patients, onNew, onSelect }) {
     </section>
   );
 }
+
 function History({ patient, history, loading, onBack }) {
   if (!patient)
     return (
@@ -878,19 +902,21 @@ function History({ patient, history, loading, onBack }) {
         <ArrowLeft className="ui-icon" />
         Pacientes
       </button>
+
       <div className="profile">
         <div className="patient-avatar big">{patient.nombre?.[0] || "P"}</div>
         <div>
           <span className="eyebrow">HISTORIAL CLÍNICO</span>
           <h2>{patient.nombre}</h2>
           <p>
-            {patient.id} · Sangre {patient.tipo_sangre || "—"} · DUI{" "}
-            {patient.dui || "—"}
+            {patient.id} — Sangre {patient.tipo_sangre || "--"} — DUI{" "}
+            {patient.dui || "--"}
           </p>
         </div>
       </div>
+
       {loading ? (
-        <div className="loading-state">Consultando historial…</div>
+        <div className="loading-state">Consultando historial...</div>
       ) : history.length ? (
         <div className="timeline">
           {history.map((item, i) => (
@@ -909,6 +935,7 @@ function History({ patient, history, loading, onBack }) {
     </section>
   );
 }
+
 function HistoryItem({ item, index }) {
   const d = item.datos || {};
   return (
@@ -939,20 +966,22 @@ function HistoryItem({ item, index }) {
         <small>
           {item.virtual
             ? "Ficha persistida en JSON."
-            : `Bloque #${item.block_id ?? "—"} · Registro clínico en Blockchain`}
+            : `Bloque #${item.block_id ?? "--"} — Registro clínico en Blockchain`}
         </small>
       </div>
     </article>
   );
 }
+
 function Field({ label, value }) {
   return (
     <div>
       <span>{label}</span>
-      <b>{value || "—"}</b>
+      <b>{value || "--"}</b>
     </div>
   );
 }
+
 function RecordForm({
   patients,
   selected,
@@ -984,7 +1013,7 @@ function RecordForm({
             <option value="">Seleccionar paciente</option>
             {patients.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.nombre} · {p.id}
+                {p.nombre} — {p.id}
               </option>
             ))}
           </select>
@@ -1032,7 +1061,7 @@ function RecordForm({
           <input
             value={record.signos_vitales}
             onChange={(e) => update("signos_vitales", e.target.value)}
-            placeholder="Ej. PA 120/80 · FC 72"
+            placeholder="Ej. PA 120/80 - FC 72"
           />
         </label>
         <label>
@@ -1050,6 +1079,7 @@ function RecordForm({
     </section>
   );
 }
+
 function PatientModal({ form, setForm, onSubmit, onClose, loading, error }) {
   const update = (k, v) => setForm((o) => ({ ...o, [k]: v }));
   return (
@@ -1165,7 +1195,7 @@ function PatientModal({ form, setForm, onSubmit, onClose, loading, error }) {
               Cancelar
             </button>
             <button className="primary" disabled={loading}>
-              {loading ? "Guardando…" : "Registrar paciente"}
+              {loading ? "Guardando..." : "Registrar paciente"}
             </button>
           </div>
         </form>
@@ -1173,14 +1203,16 @@ function PatientModal({ form, setForm, onSubmit, onClose, loading, error }) {
     </div>
   );
 }
+
 function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const proofValid = Boolean(
     chain?.valid &&
-    selectedBlock?.hash &&
-    chain?.proof_of_work &&
-    selectedBlock.hash.startsWith(chain.proof_of_work),
+      selectedBlock?.hash &&
+      chain?.proof_of_work &&
+      selectedBlock.hash.startsWith(chain.proof_of_work),
   );
+
   return (
     <section className="content">
       <div className="section-head">
@@ -1197,15 +1229,17 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
           {chain?.valid ? "Cadena válida" : "Pendiente"}
         </span>
       </div>
+
       <div className="stats">
         <Stat label="Bloques" value={chain?.blocks ?? 0} />
-        <Stat label="Complejidad" value={chain?.complexity ?? "—"} />
-        <Stat label="Proof of Work" value={chain?.proof_of_work || "—"} />
+        <Stat label="Complejidad" value={chain?.complexity ?? "--"} />
+        <Stat label="Proof of Work" value={chain?.proof_of_work || "--"} />
         <Stat
           label="Estado"
-          value={loading ? "…" : chain?.valid ? "Íntegra" : "Pendiente"}
+          value={loading ? "..." : chain?.valid ? "Íntegra" : "Pendiente"}
         />
       </div>
+
       <div className="two-col">
         <div className="panel">
           <h3>Genesis</h3>
@@ -1218,7 +1252,7 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
             disabled={loading || !selectedNode || Boolean(chain?.blocks)}
           >
             {loading
-              ? "Procesando…"
+              ? "Procesando..."
               : chain?.blocks
                 ? "Genesis ya creado"
                 : "Crear Genesis"}
@@ -1240,7 +1274,7 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
                 <div className="block-meta">
                   <small>
                     <b>Previous Hash</b>
-                    {b.previous_hash || "—"}
+                    {b.previous_hash || "--"}
                   </small>
                   <small>
                     <b>Nonce</b>
@@ -1253,6 +1287,7 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
           </div>
         </div>
       </div>
+
       {selectedBlock && (
         <div
           className="modal-backdrop"
@@ -1281,11 +1316,12 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
               <p>
                 <b>Hash</b>
               </p>
-              <code>{selectedBlock.hash || "—"}</code>
+              <code>{selectedBlock.hash || "--"}</code>
               <p>
                 <b>Previous Hash</b>
               </p>
-              <code>{selectedBlock.previous_hash || "—"}</code>
+              <code>{selectedBlock.previous_hash || "--"}</code>
+
               <div className="clinical-grid">
                 <Field label="ID del bloque" value={selectedBlock.id} />
                 <Field label="Nonce" value={selectedBlock.nonce} />
@@ -1293,7 +1329,7 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
                   label="Prueba de trabajo"
                   value={
                     chain?.proof_of_work
-                      ? `${proofValid ? "Válida" : "No válida"} · prefijo ${chain.proof_of_work}`
+                      ? `${proofValid ? "Válida" : "No válida"} - prefijo ${chain.proof_of_work}`
                       : "No disponible"
                   }
                 />
@@ -1316,27 +1352,28 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
                   value={selectedBlock.a_registros?.length ?? 0}
                 />
               </div>
+
               <h3>Registros incluidos</h3>
               {selectedBlock.a_registros?.length ? (
                 selectedBlock.a_registros.map((record, index) => (
                   <article className="record-card" key={record.id ?? index}>
                     <b>Registro #{record.id ?? index + 1}</b>
                     <p>
-                      <b>Paciente:</b> {record.paciente_id || "—"}
+                      <b>Paciente:</b> {record.paciente_id || "--"}
                     </p>
                     <p>
-                      <b>Categoría:</b> {record.categoria || "—"}
+                      <b>Categoría:</b> {record.categoria || "--"}
                     </p>
                     <p>
-                      <b>Entidad emisora:</b> {record.entidad_emisora || "—"}
+                      <b>Entidad emisora:</b> {record.entidad_emisora || "--"}
                     </p>
                     <p>
-                      <b>Fecha:</b> {record.time_stamp ? new Date(parseInt(record.time_stamp)).toLocaleString() : "—"}
+                      <b>Fecha:</b> {record.time_stamp ? new Date(parseInt(record.time_stamp)).toLocaleString() : "--"}
                     </p>
                     <p>
                       <b>Datos clínicos cifrados (no descifrados):</b>
                     </p>
-                    <code>{record.datos_cifrados || "—"}</code>
+                    <code>{record.datos_cifrados || "--"}</code>
                   </article>
                 ))
               ) : (
@@ -1344,6 +1381,7 @@ function Blockchain({ chain, blocks, loading, onGenesis, selectedNode }) {
                   Este bloque no contiene registros clínicos.
                 </p>
               )}
+
               <details>
                 <summary>Ver JSON completo</summary>
                 <pre className="block-json">
@@ -1403,6 +1441,7 @@ function Network({
           </button>
         </div>
       </div>
+
       <div className="network-layout">
         <div className="node-stack">
           {nodes.map((n) => (
@@ -1413,7 +1452,7 @@ function Network({
               <div className="node-main">
                 <span>{n.name}</span>
                 <b>
-                  IP {n.ip} · Puerto {n.port}
+                  IP {n.ip} - Puerto {n.port}
                 </b>
                 <small>
                   {n.running
@@ -1424,6 +1463,7 @@ function Network({
               <strong className={n.running ? "node-on" : "node-off"}>
                 {n.running ? "ACTIVO" : "DETENIDO"}
               </strong>
+
               <div className="node-actions">
                 {n.running ? (
                   <button
@@ -1459,6 +1499,7 @@ function Network({
             <div className="empty">No hay servidores configurados.</div>
           )}
         </div>
+
         <form
           className="panel node-create"
           onSubmit={onCreate}
@@ -1484,7 +1525,7 @@ function Network({
             />
           </label>
           <label>
-            Puerto
+            Puerto (recomendado del 7000 - 8000)
             <input
               type="number"
               min="1024"
@@ -1496,7 +1537,7 @@ function Network({
           </label>
           <button className="primary button-with-icon" disabled={loading}>
             {loading ? (
-              "Creando…"
+              "Creando..."
             ) : (
               <>
                 <Plus className="ui-icon" />

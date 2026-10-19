@@ -4,7 +4,7 @@ from .client import NodeClient
 class Wallet:
     """Cliente lógico equivalente a frmWallet."""
 
-    def __init__(self, node, timeout=8):
+    def __init__(self, node, timeout=60):
         self.node = node
         self.client = NodeClient(timeout=timeout)
 
