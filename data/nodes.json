@@ -3,18 +3,24 @@
     "name": "NODO_1",
     "ip": "127.0.0.1",
     "port": 5001,
-    "pid": 5736
+    "pid": null
   },
   {
     "name": "ARGENTINA",
     "ip": "127.0.0.2",
     "port": 7000,
-    "pid": 18240
+    "pid": null
   },
   {
     "name": "ESPAÑA",
     "ip": "127.0.0.1",
     "port": 5006,
-    "pid": 25044
+    "pid": 18592
+  },
+  {
+    "name": "MEXICO",
+    "ip": "127.0.0.1",
+    "port": 5173,
+    "pid": null
   }
 ]
