@@ -26,5 +26,19 @@
     "direccion": "Barcelona",
     "fecha_registro": "2026-10-18T22:10:13",
     "estado": "ACTIVO"
+  },
+  {
+    "id": "P003",
+    "nombre": "sdfsdfsd",
+    "dui": "00000000-0",
+    "fecha_nacimiento": "2026-10-02",
+    "tipo_sangre": "AB-",
+    "alergias": "gf",
+    "vacunas": "dggfhh",
+    "cronicas": "fghgfhg",
+    "telefono": "12345467",
+    "direccion": "fgfgdgg",
+    "fecha_registro": "2026-10-20T12:25:51",
+    "estado": "ACTIVO"
   }
 ]

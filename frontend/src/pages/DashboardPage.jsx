@@ -1525,7 +1525,7 @@ function Network({
             />
           </label>
           <label>
-            Puerto (recomendado del 7000 - 7999)
+            Puerto
             <input
               type="number"
               min="1024"

@@ -15,12 +15,18 @@
     "name": "ESPAÑA",
     "ip": "127.0.0.1",
     "port": 5006,
-    "pid": 18592
+    "pid": null
   },
   {
-    "name": "MEXICO",
+    "name": "COLOMBIA",
     "ip": "127.0.0.1",
-    "port": 5173,
+    "port": 7004,
+    "pid": null
+  },
+  {
+    "name": "INGLATERRA",
+    "ip": "127.0.0.3",
+    "port": 7009,
     "pid": null
   }
 ]
